@@ -9,111 +9,28 @@
 <body>
   <header class="topbar">
     <h1>익명 커뮤니티</h1>
-    <!--   
     <nav>
       <ul class="nav-links">
-        <li><a href="#login-section">로그인/회원가입</a></li>
-        <li><a href="#board-section">게시판</a></li>
+        <!-- <li><a href="#login-section">로그인/회원가입</a></li>
+        <li><a href="#board-section">게시판</a></li> -->
         <li><a href="#fortune-section">오늘의 운세</a></li>
-        <li><a href="#settings-section">설정</a></li>
+        <!-- <li><a href="#settings-section">설정</a></li> -->
       </ul>
     </nav>
-    -->
   </header>
 
   <main class="container">
-    <!--
-    <section id="login-section" class="card">
-      <h2>로그인 / 회원가입</h2>
-      <p class="muted">SNS 최소 정보만 받아와 XML 로 저장합니다.</p>
-      <form id="login-form" class="form-grid">
-        <label>
-          닉네임
-          <input type="text" id="nickname" required placeholder="닉네임 입력" />
-        </label>
-        <label>
-          이메일
-          <input type="email" id="email" required placeholder="sns@example.com" />
-        </label>
-        <label>
-          프로필 이미지 URL (선택)
-          <input type="url" id="avatar" placeholder="https://..." />
-        </label>
-        <label>
-          약관 동의
-          <select id="consent" required>
-            <option value="">선택하세요</option>
-            <option value="true">동의</option>
-            <option value="false">미동의</option>
-          </select>
-        </label>
-        <button type="submit" class="primary">로그인/가입</button>
-      </form>
-      <div class="login-meta" id="login-meta"></div>
+    <!-- 비운세 기능 주석 처리
+    <section id="login-section" class="card">...
     </section>
 
-    <section id="board-section" class="card">
-      <div class="section-header">
-        <div>
-          <h2>게시판</h2>
-          <p class="muted">자유게시판 · 생활 TIP 게시판</p>
-        </div>
-        <div class="board-controls">
-          <select id="board-filter">
-            <option value="all">전체</option>
-            <option value="free">자유게시판</option>
-            <option value="tip">생활 TIP 게시판</option>
-          </select>
-          <button id="new-post-btn" class="primary">새 글 작성</button>
-        </div>
-      </div>
-
-      <form id="post-form" class="form-grid hidden">
-        <input type="hidden" id="post-id" />
-        <label>
-          게시판
-          <select id="post-board" required>
-            <option value="free">자유게시판</option>
-            <option value="tip">생활 TIP 게시판</option>
-          </select>
-        </label>
-        <label>
-          타이틀
-          <input type="text" id="post-title" required placeholder="제목을 입력하세요" />
-        </label>
-        <label>
-          본문
-          <textarea id="post-body" rows="4" required placeholder="내용을 입력하세요"></textarea>
-        </label>
-        <label>
-          첨부파일
-          <input type="file" id="post-attachment" />
-          <span class="muted text-small">브라우저 저장소에 파일 이름만 기록됩니다.</span>
-        </label>
-        <label>
-          댓글 허용 여부
-          <select id="post-comments" required>
-            <option value="true">허용</option>
-            <option value="false">비허용</option>
-          </select>
-        </label>
-        <div class="form-actions">
-          <button type="submit" class="primary">저장</button>
-          <button type="button" id="cancel-edit" class="ghost">취소</button>
-        </div>
-      </form>
-
-      <div id="posts"></div>
+    <section id="board-section" class="card">...
     </section>
 
-    <section id="mypage-section" class="card">
-      <div class="section-header">
-        <h2>마이페이지</h2>
-        <p class="muted">내가 쓴 글 모아보기 (갤러리)</p>
-      </div>
-      <div id="my-posts" class="gallery"></div>
+    <section id="mypage-section" class="card">...
     </section>
--->
+    -->
+
     <section id="fortune-section" class="card">
       <h2>오늘의 운세</h2>
       <form id="fortune-form" class="form-grid">
@@ -166,38 +83,10 @@
         <button id="share-fortune" class="primary">모바일 공유/모달</button>
       </div>
     </section>
-<!--
-    <section id="settings-section" class="card">
-      <h2>설정</h2>
-      <div class="setting-actions">
-        <button id="logout-btn" class="ghost">로그아웃</button>
-        <button id="delete-account-btn" class="danger">탈퇴</button>
-      </div>
-    </section>
-  -->
+    <!-- <section id="settings-section" class="card">설정 ...</section> -->
   </main>
 
-  <template id="post-template">
-    <article class="post">
-      <div class="post-meta">
-        <span class="badge" data-board></span>
-        <span data-author></span>
-        <span data-date class="muted"></span>
-      </div>
-      <h3 data-title></h3>
-      <p data-body></p>
-      <p class="muted text-small" data-attachment></p>
-      <div class="comment-status" data-comment-status></div>
-      <div class="post-actions">
-        <button data-edit class="ghost">수정</button>
-        <button data-delete class="danger">삭제</button>
-      </div>
-      <div class="comment-box" data-comment-box>
-        <label>댓글 남기기</label>
-        <textarea rows="2" placeholder="댓글은 로컬에 저장되지 않습니다."></textarea>
-      </div>
-    </article>
-  </template>
+  <!-- <template id="post-template">게시글 템플릿...</template> -->
 
   <script src="script.js"></script>
 </body>
