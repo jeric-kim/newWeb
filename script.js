@@ -14,6 +14,9 @@ const fortuneResult = document.querySelector('#fortune-result');
 const fortuneShareRow = document.querySelector('#fortune-share-row');
 const copyFortuneBtn = document.querySelector('#copy-fortune');
 const shareFortuneBtn = document.querySelector('#share-fortune');
+const birthYearSelect = document.querySelector('#birth-year');
+const birthMonthSelect = document.querySelector('#birth-month');
+const birthDaySelect = document.querySelector('#birth-day');
 const newPostBtn = document.querySelector('#new-post-btn');
 const cancelEditBtn = document.querySelector('#cancel-edit');
 const boardFilter = document.querySelector('#board-filter');
@@ -23,6 +26,8 @@ const deleteAccountBtn = document.querySelector('#delete-account-btn');
 let currentUser = loadUser();
 let posts = loadPosts();
 let fortuneText = '';
+
+populateBirthSelects();
 
 const NEW_YEAR_2026_FORTUNE = {
   rat: {
@@ -266,10 +271,17 @@ boardFilter.addEventListener('change', renderPosts);
 
 fortuneForm.addEventListener('submit', (e) => {
   e.preventDefault();
-  const birthdate = document.querySelector('#birthdate').value;
+  const birthdate = buildBirthdate();
   const fortuneType = fortuneTypeSelect.value;
   const zodiac = document.querySelector('#zodiac').value || calculateZodiac(birthdate);
-  if (!birthdate) return;
+  if (!birthdate) {
+    alert('생년월일을 모두 선택해 주세요.');
+    return;
+  }
+  if (Number.isNaN(new Date(birthdate).getTime())) {
+    alert('유효한 생년월일을 선택해 주세요.');
+    return;
+  }
   const fortunePayload = buildFortune(birthdate, zodiac, fortuneType);
   fortuneText = fortunePayload.shareText;
   renderFortuneResult(fortunePayload);
@@ -437,6 +449,49 @@ function resetPostForm() {
   postForm.reset();
   document.querySelector('#post-id').value = '';
   postForm.classList.add('hidden');
+}
+
+function populateBirthSelects() {
+  const currentYear = new Date().getFullYear();
+  const years = Array.from({ length: 90 }, (_, i) => currentYear - i); // 최근 연도부터 90년 범위
+  years.forEach((year) => {
+    const option = document.createElement('option');
+    option.value = year;
+    option.textContent = `${year}년`;
+    birthYearSelect.appendChild(option);
+  });
+
+  for (let m = 1; m <= 12; m++) {
+    const option = document.createElement('option');
+    option.value = m;
+    option.textContent = `${m}월`;
+    birthMonthSelect.appendChild(option);
+  }
+
+  birthYearSelect.addEventListener('change', updateDays);
+  birthMonthSelect.addEventListener('change', updateDays);
+}
+
+function updateDays() {
+  birthDaySelect.innerHTML = '<option value="">일</option>';
+  const year = parseInt(birthYearSelect.value, 10);
+  const month = parseInt(birthMonthSelect.value, 10);
+  if (!year || !month) return;
+  const daysInMonth = new Date(year, month, 0).getDate();
+  for (let d = 1; d <= daysInMonth; d++) {
+    const option = document.createElement('option');
+    option.value = d;
+    option.textContent = `${d}일`;
+    birthDaySelect.appendChild(option);
+  }
+}
+
+function buildBirthdate() {
+  const year = birthYearSelect.value;
+  const month = birthMonthSelect.value;
+  const day = birthDaySelect.value;
+  if (!year || !month || !day) return '';
+  return `${year}-${String(month).padStart(2, '0')}-${String(day).padStart(2, '0')}`;
 }
 
 function calculateZodiac(dateStr) {

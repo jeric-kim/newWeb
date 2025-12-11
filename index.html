@@ -127,7 +127,17 @@
         </label>
         <label>
           생년월일
-          <input type="date" id="birthdate" required />
+          <div class="birth-selects">
+            <select id="birth-year" required aria-label="출생 연도">
+              <option value="">연도</option>
+            </select>
+            <select id="birth-month" required aria-label="출생 월">
+              <option value="">월</option>
+            </select>
+            <select id="birth-day" required aria-label="출생 일">
+              <option value="">일</option>
+            </select>
+          </div>
         </label>
         <label>
           별자리 / 띠 선택 (선택)
