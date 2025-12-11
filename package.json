@@ -1,0 +1,14 @@
+{
+  "name": "newweb-community-demo",
+  "version": "1.0.0",
+  "private": true,
+  "description": "Static anonymous community demo with fortune readings",
+  "scripts": {
+    "start": "python -m http.server 8000",
+    "build": "mkdir -p dist && cp index.html styles.css script.js README.md dist/",
+    "test": "echo 'No tests specified'"
+  },
+  "keywords": ["community", "fortune", "static"],
+  "author": "",
+  "license": "MIT"
+}
