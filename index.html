@@ -118,6 +118,14 @@
       <h2>오늘의 운세</h2>
       <form id="fortune-form" class="form-grid">
         <label>
+          운세 종류
+          <select id="fortune-type">
+            <option value="today">오늘의 운세</option>
+            <option value="newYear2026">2026년 신년 운세</option>
+            <option value="tojeong">토정비결</option>
+          </select>
+        </label>
+        <label>
           생년월일
           <input type="date" id="birthdate" required />
         </label>
@@ -141,6 +149,7 @@
         </label>
         <button type="submit" class="primary">운세 보기</button>
       </form>
+      <p class="muted text-small fortune-hint">출생 정보로 별자리와 띠를 계산해 전문 운세(신년·토정비결 포함)를 제공합니다.</p>
       <div id="fortune-result" class="fortune"></div>
       <div class="share-row hidden" id="fortune-share-row">
         <button id="copy-fortune" class="ghost">PC: 결과 복사</button>
