@@ -1,0 +1,1307 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, viewport-fit=cover" />
+  <title>SBI Cosmoney | 사전 회원 등록</title>
+  <style>
+    :root {
+      --bg: #ffffff;
+      --text: #111827;
+      --subtext: #667085;
+      --line: #e5e7eb;
+      --primary: #3b45f3;
+      --primary-strong: #2d36d9;
+      --primary-soft: rgba(59, 69, 243, 0.08);
+      --success: #059669;
+      --danger: #dc2626;
+      --shadow: 0 16px 40px rgba(15, 23, 42, 0.08);
+      --radius-xxl: 28px;
+      --radius-xl: 22px;
+      --radius-lg: 18px;
+      --radius-md: 16px;
+      --radius-sm: 12px;
+      --wrap: 520px;
+      --label-width: 126px;
+    }
+
+    * {
+      box-sizing: border-box;
+    }
+
+    html,
+    body {
+      margin: 0;
+      padding: 0;
+      background: var(--bg);
+      color: var(--text);
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Noto Sans KR", "Apple SD Gothic Neo", sans-serif;
+      -webkit-font-smoothing: antialiased;
+      text-rendering: optimizeLegibility;
+    }
+
+    body {
+      min-height: 100vh;
+    }
+
+    img {
+      display: block;
+      max-width: 100%;
+    }
+
+    button,
+    input,
+    select {
+      font: inherit;
+    }
+
+    .app {
+      width: 100%;
+      max-width: var(--wrap);
+      margin: 0 auto;
+      padding: 0 16px 36px;
+    }
+
+    .topbar {
+      position: sticky;
+      top: 0;
+      z-index: 60;
+      background: rgba(255, 255, 255, 0.9);
+      backdrop-filter: blur(14px);
+      border-bottom: 1px solid rgba(229, 231, 235, 0.9);
+    }
+
+    .topbar-inner {
+      max-width: var(--wrap);
+      margin: 0 auto;
+      padding: 10px 16px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 12px;
+    }
+
+    .brand {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      min-width: 0;
+    }
+
+    .brand img {
+      width: 36px;
+      height: 36px;
+      object-fit: contain;
+      border-radius: 12px;
+      border: 1px solid rgba(59, 69, 243, 0.1);
+      background: #fff;
+      box-shadow: 0 8px 18px rgba(59, 69, 243, 0.1);
+      flex: 0 0 auto;
+    }
+
+    .brand-copy {
+      min-width: 0;
+    }
+
+    .brand-title {
+      font-size: 14px;
+      font-weight: 800;
+      line-height: 1.2;
+      color: var(--text);
+    }
+
+    .brand-subtitle {
+      margin-top: 2px;
+      font-size: 11px;
+      line-height: 1.2;
+      color: var(--subtext);
+    }
+
+    .lang-wrap {
+      position: relative;
+      flex: 0 0 auto;
+    }
+
+    .lang-toggle {
+      height: 40px;
+      padding: 0 14px;
+      border: 1px solid var(--line);
+      border-radius: 999px;
+      background: #fff;
+      color: var(--text);
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      font-size: 13px;
+      font-weight: 700;
+      cursor: pointer;
+      box-shadow: 0 6px 18px rgba(17, 24, 39, 0.04);
+    }
+
+    .lang-menu {
+      position: absolute;
+      right: 0;
+      top: calc(100% + 8px);
+      width: 220px;
+      padding: 8px;
+      border: 1px solid var(--line);
+      border-radius: 18px;
+      background: #fff;
+      box-shadow: 0 18px 36px rgba(17, 24, 39, 0.12);
+      display: none;
+    }
+
+    .lang-menu.open {
+      display: block;
+    }
+
+    .lang-item {
+      width: 100%;
+      padding: 11px 12px;
+      border: 0;
+      border-radius: 12px;
+      background: transparent;
+      color: var(--text);
+      font-size: 13px;
+      font-weight: 700;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      cursor: pointer;
+      text-align: left;
+    }
+
+    .lang-item.active,
+    .lang-item:hover {
+      background: var(--primary-soft);
+      color: var(--primary);
+    }
+
+    .hero {
+      padding: 28px 0 20px;
+    }
+
+    .hero-logo {
+      width: 64px;
+      height: 64px;
+      border-radius: 20px;
+      border: 1px solid rgba(59, 69, 243, 0.12);
+      background: #fff;
+      box-shadow: 0 12px 28px rgba(59, 69, 243, 0.12);
+      overflow: hidden;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      margin-bottom: 16px;
+    }
+
+    .hero-logo img {
+      width: 44px;
+      height: 44px;
+      object-fit: contain;
+    }
+
+    .hero-title {
+      margin: 0;
+      font-size: 32px;
+      line-height: 1.16;
+      letter-spacing: -0.04em;
+      font-weight: 900;
+    }
+
+    .hero-desc {
+      margin: 12px 0 0;
+      font-size: 15px;
+      line-height: 1.7;
+      color: var(--subtext);
+    }
+
+    .hero-grid {
+      margin-top: 18px;
+      display: grid;
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+      gap: 10px;
+    }
+
+    .hero-chip {
+      border: 1px solid var(--line);
+      border-radius: 18px;
+      background: #fff;
+      padding: 14px 12px;
+      text-align: center;
+      box-shadow: 0 8px 18px rgba(15, 23, 42, 0.04);
+    }
+
+    .hero-chip strong {
+      display: block;
+      font-size: 14px;
+      font-weight: 800;
+    }
+
+    .hero-chip span {
+      display: block;
+      margin-top: 5px;
+      font-size: 11px;
+      line-height: 1.45;
+      color: var(--subtext);
+    }
+
+    .card {
+      border: 1px solid var(--line);
+      border-radius: var(--radius-xxl);
+      background: #fff;
+      box-shadow: var(--shadow);
+    }
+
+    .landing-card,
+    .step-card,
+    .complete-card {
+      padding: 22px 18px 24px;
+    }
+
+    .eyebrow {
+      display: inline-flex;
+      align-items: center;
+      padding: 7px 12px;
+      border-radius: 999px;
+      background: var(--primary-soft);
+      color: var(--primary);
+      font-size: 12px;
+      font-weight: 800;
+      margin-bottom: 12px;
+    }
+
+    .section-title {
+      margin: 0;
+      font-size: 22px;
+      line-height: 1.3;
+      letter-spacing: -0.03em;
+      font-weight: 900;
+    }
+
+    .section-desc {
+      margin: 10px 0 0;
+      font-size: 14px;
+      line-height: 1.7;
+      color: var(--subtext);
+    }
+
+    .feature-list {
+      list-style: none;
+      margin: 18px 0 22px;
+      padding: 0;
+      display: grid;
+      gap: 10px;
+    }
+
+    .feature-list li {
+      display: flex;
+      align-items: flex-start;
+      gap: 10px;
+      font-size: 14px;
+      line-height: 1.6;
+      color: #1f2937;
+    }
+
+    .feature-list li::before {
+      content: "✓";
+      width: 22px;
+      height: 22px;
+      flex: 0 0 22px;
+      border-radius: 999px;
+      background: var(--primary-soft);
+      color: var(--primary);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 12px;
+      font-weight: 900;
+      margin-top: 1px;
+    }
+
+    .page {
+      display: none;
+      margin-top: 18px;
+    }
+
+    .page.active {
+      display: block;
+    }
+
+    .step-top {
+      display: flex;
+      align-items: flex-start;
+      justify-content: space-between;
+      gap: 14px;
+      margin-bottom: 18px;
+    }
+
+    .step-label {
+      font-size: 12px;
+      font-weight: 900;
+      color: var(--primary);
+      letter-spacing: 0.08em;
+    }
+
+    .step-title {
+      margin: 6px 0 0;
+      font-size: 24px;
+      line-height: 1.25;
+      letter-spacing: -0.03em;
+      font-weight: 900;
+    }
+
+    .step-sub {
+      margin-top: 8px;
+      font-size: 13px;
+      line-height: 1.6;
+      color: var(--subtext);
+    }
+
+    .progress {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      flex: 0 0 auto;
+    }
+
+    .progress-dot {
+      width: 34px;
+      height: 8px;
+      border-radius: 999px;
+      background: #e5e7eb;
+    }
+
+    .progress-dot.active {
+      background: var(--primary);
+    }
+
+    .form-grid {
+      display: grid;
+      gap: 14px;
+    }
+
+    .field {
+      display: grid;
+      grid-template-columns: minmax(112px, var(--label-width)) minmax(0, 1fr);
+      gap: 12px;
+      align-items: center;
+      width: 100%;
+    }
+
+    .field-label {
+      font-size: 13px;
+      font-weight: 800;
+      line-height: 1.45;
+      color: #24304a;
+      word-break: keep-all;
+    }
+
+    .field-label.required::after {
+      content: ' *';
+      color: var(--primary);
+    }
+
+    .field-control {
+      min-width: 0;
+      width: 100%;
+    }
+
+    .field-control input,
+    .field-control select {
+      width: 100%;
+      height: 52px;
+      padding: 0 15px;
+      border: 1px solid #d8deee;
+      border-radius: 16px;
+      background: #fff;
+      color: #1a2237;
+      font-size: 15px;
+      outline: none;
+      transition: 0.2s ease;
+    }
+
+    .field-control input:focus,
+    .field-control select:focus {
+      border-color: var(--primary);
+      box-shadow: 0 0 0 4px rgba(59, 69, 243, 0.1);
+    }
+
+    .segmented {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 10px;
+    }
+
+    .segmented input {
+      display: none;
+    }
+
+    .segmented label {
+      min-height: 52px;
+      border: 1px solid #d8deee;
+      border-radius: 16px;
+      background: #fff;
+      color: #24304a;
+      font-size: 14px;
+      font-weight: 800;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 0 12px;
+      text-align: center;
+      cursor: pointer;
+    }
+
+    .segmented input:checked + label {
+      border-color: var(--primary);
+      background: var(--primary-soft);
+      color: var(--primary);
+    }
+
+    .helper {
+      margin-top: 7px;
+      font-size: 12px;
+      line-height: 1.5;
+      color: var(--subtext);
+    }
+
+    .error,
+    .success {
+      display: none;
+      margin-top: 7px;
+      font-size: 12px;
+    }
+
+    .error {
+      color: var(--danger);
+    }
+
+    .success {
+      color: var(--success);
+    }
+
+    .verify-row {
+      display: grid;
+      grid-template-columns: 1fr auto;
+      gap: 10px;
+    }
+
+    .verify-btn {
+      min-width: 112px;
+      width: auto;
+      padding-inline: 16px;
+    }
+
+    .code-wrap {
+      display: none;
+      margin-top: 10px;
+    }
+
+    .code-wrap.show {
+      display: block;
+    }
+
+    .action-stack {
+      display: grid;
+      gap: 10px;
+      margin-top: 22px;
+    }
+
+    .btn,
+    .btn-secondary,
+    .btn-ghost,
+    .verify-btn,
+    .save-btn {
+      width: 100%;
+      min-height: 54px;
+      padding: 15px 18px;
+      border-radius: 18px;
+      border: 0;
+      font-size: 15px;
+      font-weight: 900;
+      cursor: pointer;
+      transition: 0.2s ease;
+    }
+
+    .btn,
+    .verify-btn,
+    .save-btn {
+      background: var(--primary);
+      color: #fff;
+      box-shadow: 0 14px 26px rgba(59, 69, 243, 0.24);
+    }
+
+    .btn:hover,
+    .verify-btn:hover,
+    .save-btn:hover {
+      background: var(--primary-strong);
+    }
+
+    .btn-secondary,
+    .btn-ghost {
+      background: #fff;
+      color: #24304a;
+      border: 1px solid var(--line);
+    }
+
+    .complete-head {
+      text-align: center;
+      margin-bottom: 18px;
+    }
+
+    .complete-icon {
+      width: 62px;
+      height: 62px;
+      margin: 0 auto 14px;
+      border-radius: 999px;
+      background: rgba(5, 150, 105, 0.12);
+      color: var(--success);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 30px;
+      font-weight: 900;
+    }
+
+    .complete-title {
+      margin: 0;
+      font-size: 26px;
+      line-height: 1.24;
+      letter-spacing: -0.03em;
+      font-weight: 900;
+    }
+
+    .complete-desc {
+      margin: 10px 0 0;
+      font-size: 14px;
+      line-height: 1.65;
+      color: var(--subtext);
+    }
+
+    .summary-box {
+      margin-top: 16px;
+      padding: 16px;
+      border: 1px solid var(--line);
+      border-radius: 22px;
+      background: #f8faff;
+    }
+
+    .summary-row {
+      display: grid;
+      grid-template-columns: 110px 1fr;
+      gap: 10px;
+      padding: 10px 0;
+      border-bottom: 1px dashed #d9dfee;
+    }
+
+    .summary-row:last-child {
+      border-bottom: 0;
+    }
+
+    .summary-row dt {
+      font-size: 12px;
+      font-weight: 800;
+      color: var(--subtext);
+    }
+
+    .summary-row dd {
+      margin: 0;
+      font-size: 14px;
+      line-height: 1.55;
+      font-weight: 700;
+      color: #1b2338;
+      word-break: break-word;
+    }
+
+    .footer-space {
+      height: 30px;
+    }
+
+    @media (max-width: 520px) {
+      .app {
+        padding: 0 16px 28px;
+      }
+
+      .topbar-inner {
+        padding: 10px 16px;
+      }
+
+      .hero-title {
+        font-size: 28px;
+      }
+
+      .hero-grid,
+      .hero-badges {
+        grid-template-columns: 1fr;
+      }
+
+      .field {
+        grid-template-columns: 1fr;
+        gap: 8px;
+      }
+
+      .field-label {
+        font-size: 13px;
+      }
+
+      .summary-row {
+        grid-template-columns: 1fr;
+        gap: 4px;
+      }
+    }
+  </style>
+</head>
+<body>
+  <div class="topbar">
+    <div class="topbar-inner">
+      <div class="brand">
+        <img alt="SBI Cosmoney" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAABkAAAAF5CAYAAADH3uZMAAAABHNCSVQICAgIfAhkiAAAIABJREFUeJzs3XeYJVWduPGXKXIRpEhSIDmKASUIKgUCBkRUgqHMeVdZddeI7brrrmspxjXx0zUhitcIKmJAELyiKCKIAVBBQKUIYiHhkgt+f9RFRwSmp/tWnRvez/P00zDTfc6LNjNDf++pswKSJLWkTtLVgQRYa6m3NYG1h+/XAFYHVrub96sAKwIrD99WHP7YHcPlVxj+/QrDv7YHAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAMCn+M0R2m1nKQAA" />
+        <div class="brand-copy">
+          <div class="brand-title">SBI Cosmoney</div>
+          <div class="brand-subtitle" data-i18n="brandSub">사전 회원 등록</div>
+        </div>
+      </div>
+      <div class="lang-wrap">
+        <button id="langToggle" class="lang-toggle" type="button">
+          <span id="currentFlag">🇰🇷</span>
+          <span id="currentLang">한국어</span>
+        </button>
+        <div id="langMenu" class="lang-menu">
+          <button class="lang-item active" data-lang="ko" data-flag="🇰🇷" data-label="한국어"><span>🇰🇷</span><span>한국어</span></button>
+          <button class="lang-item" data-lang="en" data-flag="🇺🇸" data-label="English"><span>🇺🇸</span><span>English</span></button>
+          <button class="lang-item" data-lang="vi" data-flag="🇻🇳" data-label="Tiếng Việt"><span>🇻🇳</span><span>Tiếng Việt</span></button>
+          <button class="lang-item" data-lang="id" data-flag="🇮🇩" data-label="Indonesia"><span>🇮🇩</span><span>Indonesia</span></button>
+          <button class="lang-item" data-lang="km" data-flag="🇰🇭" data-label="ខ្មែរ"><span>🇰🇭</span><span>ខ្មែរ</span></button>
+          <button class="lang-item" data-lang="zh" data-flag="🇨🇳" data-label="中文"><span>🇨🇳</span><span>中文</span></button>
+          <button class="lang-item" data-lang="my" data-flag="🇲🇲" data-label="မြန်မာ"><span>🇲🇲</span><span>မြန်မာ</span></button>
+          <button class="lang-item" data-lang="th" data-flag="🇹🇭" data-label="ไทย"><span>🇹🇭</span><span>ไทย</span></button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <main class="app">
+    <section id="landingPage" class="page active">
+      <div class="hero">
+        <div class="hero-logo">
+          <img alt="SBI Cosmoney" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAABkAAAAF5CAYAAADH3uZMAAAABHNCSVQICAgIfAhkiAAAIABJREFUeJzs3XeYJVWduPGXKXIRpEhSIDmKASUIKgUCBkRUgqHMeVdZddeI7brrrmspxjXx0zUhitcIKmJAELyiKCKIAVBBQKUIYiHhkgt+f9RFRwSmp/tWnRvez/P00zDTfc6LNjNDf++pswKSJLWkTtLVgQRYa6m3NYG1h+/XAFYHVrub96sAKwIrD99WHP7YHcPlVxj+/QrDv7YHAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAMCn+M0R2m1nKQAA" />
+        </div>
+        <h1 class="hero-title" data-i18n="heroTitle">한국 생활 준비,<br />사전 회원 등록으로 더 간편하게</h1>
+        <p class="hero-desc" data-i18n="heroDesc">입국 전 기본 정보를 등록하고, 입국 후 필요한 서비스 안내를 빠르게 받아보세요.</p>
+        <div class="hero-badges">
+          <div class="hero-chip"><strong data-i18n="trust1Title">사전 등록</strong><span data-i18n="trust1Desc">기본 정보만 먼저 등록할 수 있어요</span></div>
+          <div class="hero-chip"><strong data-i18n="trust2Title">간편 인증</strong><span data-i18n="trust2Desc">이메일 확인 후 등록을 진행해요</span></div>
+          <div class="hero-chip"><strong data-i18n="trust3Title">상담 연결</strong><span data-i18n="trust3Desc">희망하는 SNS 채널로 안내받을 수 있어요</span></div>
+        </div>
+      </div>
+
+      <div class="card landing-card">
+        <span class="eyebrow" data-i18n="eyebrow">FOREIGN CUSTOMER PRE-REGISTRATION</span>
+        <h2 class="section-title" data-i18n="landingTitle">외국인 가망 고객을 위한 사전 회원 등록</h2>
+        <p class="section-desc" data-i18n="landingDesc">국적과 언어, 연락 수단을 먼저 등록하면 이후 필요한 안내를 더 정확하게 받을 수 있습니다.</p>
+        <ul class="feature-list">
+          <li data-i18n="bullet1">필수 정보만 단계별로 간단하게 입력</li>
+          <li data-i18n="bullet2">이메일 인증 후 등록 진행</li>
+          <li data-i18n="bullet3">희망하는 SNS 채널로 상담 연결 준비</li>
+        </ul>
+        <button id="startBtn" class="btn" type="button" data-i18n="startBtn">사전 회원 등록 시작</button>
+      </div>
+    </section>
+
+    <section id="step1Page" class="page">
+      <div class="card step-card">
+        <div class="step-top">
+          <div>
+            <div class="step-label">STEP 1</div>
+            <h2 class="step-title" data-i18n="step1Title">기본 정보를 입력해 주세요</h2>
+            <div class="step-sub" data-i18n="step1Sub">영문 이름과 국적, 선호 언어를 등록합니다.</div>
+          </div>
+          <div class="progress">
+            <span class="progress-dot active"></span>
+            <span class="progress-dot"></span>
+          </div>
+        </div>
+
+        <div class="form-grid">
+          <div class="field">
+            <label class="field-label required" for="lastName" data-i18n="lastNameLabel">영문 성</label>
+            <div class="field-control">
+              <input id="lastName" type="text" placeholder="Go" />
+              <div id="lastNameErr" class="error" data-i18n="requiredMsg">필수 항목을 입력해 주세요.</div>
+            </div>
+          </div>
+
+          <div class="field">
+            <label class="field-label required" for="firstName" data-i18n="firstNameLabel">영문 이름</label>
+            <div class="field-control">
+              <input id="firstName" type="text" placeholder="Yoonjeong" />
+              <div id="firstNameErr" class="error" data-i18n="requiredMsg">필수 항목을 입력해 주세요.</div>
+            </div>
+          </div>
+
+          <div class="field">
+            <label class="field-label required" for="birthDate" data-i18n="birthLabel">생년월일</label>
+            <div class="field-control">
+              <input id="birthDate" type="date" />
+              <div id="birthDateErr" class="error" data-i18n="requiredMsg">필수 항목을 입력해 주세요.</div>
+            </div>
+          </div>
+
+          <div class="field">
+            <span class="field-label required" data-i18n="genderLabel">성별</span>
+            <div class="field-control">
+              <div class="segmented">
+                <div>
+                  <input type="radio" name="gender" id="genderMale" value="male" />
+                  <label for="genderMale" data-i18n="male">남성</label>
+                </div>
+                <div>
+                  <input type="radio" name="gender" id="genderFemale" value="female" />
+                  <label for="genderFemale" data-i18n="female">여성</label>
+                </div>
+              </div>
+              <div id="genderErr" class="error" data-i18n="requiredMsg">필수 항목을 입력해 주세요.</div>
+            </div>
+          </div>
+
+          <div class="field">
+            <label class="field-label required" for="nationality" data-i18n="nationalityLabel">국적</label>
+            <div class="field-control">
+              <select id="nationality"></select>
+              <div id="nationalityErr" class="error" data-i18n="requiredMsg">필수 항목을 입력해 주세요.</div>
+            </div>
+          </div>
+
+          <div class="field">
+            <label class="field-label required" for="preferredLanguage" data-i18n="preferredLangLabel">선호 언어</label>
+            <div class="field-control">
+              <select id="preferredLanguage"></select>
+              <div id="preferredLanguageErr" class="error" data-i18n="requiredMsg">필수 항목을 입력해 주세요.</div>
+            </div>
+          </div>
+        </div>
+
+        <div class="action-stack">
+          <button id="toStep2Btn" class="btn" type="button" data-i18n="nextBtn">다음</button>
+          <button id="backLandingBtn" class="btn-ghost" type="button" data-i18n="backBtn">이전</button>
+        </div>
+      </div>
+    </section>
+
+    <section id="step2Page" class="page">
+      <div class="card step-card">
+        <div class="step-top">
+          <div>
+            <div class="step-label">STEP 2</div>
+            <h2 class="step-title" data-i18n="step2Title">연락 정보를 입력해 주세요</h2>
+            <div class="step-sub" data-i18n="step2Sub">이메일 인증 후, 유입 경로와 상담 채널을 등록합니다.</div>
+          </div>
+          <div class="progress">
+            <span class="progress-dot active"></span>
+            <span class="progress-dot active"></span>
+          </div>
+        </div>
+
+        <div class="form-grid">
+          <div class="field">
+            <label class="field-label required" for="email" data-i18n="emailLabel">이메일</label>
+            <div class="field-control">
+              <input id="email" type="email" placeholder="name@example.com" />
+              <div class="helper" data-i18n="emailHelper">이메일 인증을 완료해 주세요.</div>
+              <div id="emailErr" class="error" data-i18n="emailErr">올바른 이메일을 입력해 주세요.</div>
+            </div>
+          </div>
+
+          <div class="field">
+            <span class="field-label required" data-i18n="emailVerifyLabel">이메일 인증</span>
+            <div class="field-control">
+              <div class="verify-row">
+                <button id="sendCodeBtn" class="verify-btn" type="button" data-i18n="sendCodeBtn">인증코드 발송</button>
+              </div>
+              <div id="codeWrap" class="code-wrap">
+                <div class="verify-row">
+                  <input id="emailCode" type="text" inputmode="numeric" maxlength="6" placeholder="000000" />
+                  <button id="verifyCodeBtn" class="verify-btn" type="button" data-i18n="verifyBtn">인증 확인</button>
+                </div>
+                <div id="emailCodeErr" class="error" data-i18n="codeErr">인증코드를 확인해 주세요.</div>
+                <div id="emailCodeSuccess" class="success" data-i18n="codeSuccess">이메일 인증이 완료되었습니다.</div>
+              </div>
+            </div>
+          </div>
+
+          <div class="field">
+            <label class="field-label" for="phone" data-i18n="phoneLabel">휴대전화 번호</label>
+            <div class="field-control">
+              <input id="phone" type="tel" placeholder="010-0000-0000" />
+              <div class="helper" data-i18n="phoneHelper">선택 입력 항목입니다.</div>
+            </div>
+          </div>
+
+          <div class="field">
+            <label class="field-label required" for="source" data-i18n="sourceLabel">유입 경로</label>
+            <div class="field-control">
+              <select id="source"></select>
+              <div id="sourceErr" class="error" data-i18n="requiredMsg">필수 항목을 입력해 주세요.</div>
+            </div>
+          </div>
+
+          <div class="field">
+            <label class="field-label" for="sourceDetail" data-i18n="sourceDetailLabel">유입 경로 상세</label>
+            <div class="field-control">
+              <input id="sourceDetail" type="text" placeholder="예: Facebook 광고 / 친구 소개" />
+            </div>
+          </div>
+
+          <div class="field">
+            <label class="field-label required" for="snsChannel" data-i18n="snsChannelLabel">상담 희망 SNS</label>
+            <div class="field-control">
+              <select id="snsChannel"></select>
+              <div id="snsChannelErr" class="error" data-i18n="requiredMsg">필수 항목을 입력해 주세요.</div>
+            </div>
+          </div>
+
+          <div class="field">
+            <label class="field-label required" for="snsAccount" data-i18n="snsAccountLabel">SNS 계정</label>
+            <div class="field-control">
+              <input id="snsAccount" type="text" placeholder="@account / profile link" />
+              <div id="snsAccountErr" class="error" data-i18n="requiredMsg">필수 항목을 입력해 주세요.</div>
+            </div>
+          </div>
+        </div>
+
+        <div class="action-stack">
+          <button id="submitBtn" class="btn" type="button" data-i18n="submitBtn">등록 완료</button>
+          <button id="toStep1Btn" class="btn-secondary" type="button" data-i18n="prevBtn">이전</button>
+        </div>
+      </div>
+    </section>
+
+    <section id="completePage" class="page">
+      <div class="card complete-card">
+        <div class="complete-head">
+          <div class="complete-icon">✓</div>
+          <h2 class="complete-title" data-i18n="completeTitle">사전 회원 등록이 완료되었습니다</h2>
+          <p class="complete-desc" data-i18n="completeDesc">입력하신 정보를 바탕으로 이후 필요한 안내를 준비하겠습니다.</p>
+        </div>
+
+        <div id="captureArea" class="summary-box">
+          <dl class="summary-row"><dt data-i18n="lastNameLabel">영문 성</dt><dd id="summaryLastName"></dd></dl>
+          <dl class="summary-row"><dt data-i18n="firstNameLabel">영문 이름</dt><dd id="summaryFirstName"></dd></dl>
+          <dl class="summary-row"><dt data-i18n="birthLabel">생년월일</dt><dd id="summaryBirth"></dd></dl>
+          <dl class="summary-row"><dt data-i18n="genderLabel">성별</dt><dd id="summaryGender"></dd></dl>
+          <dl class="summary-row"><dt data-i18n="nationalityLabel">국적</dt><dd id="summaryNationality"></dd></dl>
+          <dl class="summary-row"><dt data-i18n="preferredLangLabel">선호 언어</dt><dd id="summaryPreferredLanguage"></dd></dl>
+          <dl class="summary-row"><dt data-i18n="emailLabel">이메일</dt><dd id="summaryEmail"></dd></dl>
+          <dl class="summary-row"><dt data-i18n="phoneLabel">휴대전화 번호</dt><dd id="summaryPhone"></dd></dl>
+          <dl class="summary-row"><dt data-i18n="sourceLabel">유입 경로</dt><dd id="summarySource"></dd></dl>
+          <dl class="summary-row"><dt data-i18n="sourceDetailLabel">유입 경로 상세</dt><dd id="summarySourceDetail"></dd></dl>
+          <dl class="summary-row"><dt data-i18n="snsChannelLabel">상담 희망 SNS</dt><dd id="summarySnsChannel"></dd></dl>
+          <dl class="summary-row"><dt data-i18n="snsAccountLabel">SNS 계정</dt><dd id="summarySnsAccount"></dd></dl>
+        </div>
+
+        <div class="action-stack">
+          <button id="saveImageBtn" class="save-btn" type="button" data-i18n="saveImageBtn">신청정보 이미지로 저장하기</button>
+          <button id="resetBtn" class="btn-ghost" type="button" data-i18n="resetBtn">처음으로 돌아가기</button>
+        </div>
+      </div>
+    </section>
+
+    <div class="footer-space"></div>
+  </main>
+
+  <script src="https://cdn.jsdelivr.net/npm/html2canvas@1.4.1/dist/html2canvas.min.js"></script>
+  <script>
+    const translations = {
+      ko: {
+        brandSub: '사전 회원 등록',
+        heroTitle: '한국 생활 준비,<br />사전 회원 등록으로 더 간편하게',
+        heroDesc: '입국 전 기본 정보를 등록하고, 입국 후 필요한 서비스 안내를 빠르게 받아보세요.',
+        trust1Title: '사전 등록',
+        trust1Desc: '기본 정보만 먼저 등록할 수 있어요',
+        trust2Title: '간편 인증',
+        trust2Desc: '이메일 확인 후 등록을 진행해요',
+        trust3Title: '상담 연결',
+        trust3Desc: '희망하는 SNS 채널로 안내받을 수 있어요',
+        eyebrow: 'FOREIGN CUSTOMER PRE-REGISTRATION',
+        landingTitle: '외국인 가망 고객을 위한 사전 회원 등록',
+        landingDesc: '국적과 언어, 연락 수단을 먼저 등록하면 이후 필요한 안내를 더 정확하게 받을 수 있습니다.',
+        bullet1: '필수 정보만 단계별로 간단하게 입력',
+        bullet2: '이메일 인증 후 등록 진행',
+        bullet3: '희망하는 SNS 채널로 상담 연결 준비',
+        startBtn: '사전 회원 등록 시작',
+        step1Title: '기본 정보를 입력해 주세요',
+        step1Sub: '영문 이름과 국적, 선호 언어를 등록합니다.',
+        lastNameLabel: '영문 성',
+        firstNameLabel: '영문 이름',
+        birthLabel: '생년월일',
+        genderLabel: '성별',
+        male: '남성',
+        female: '여성',
+        nationalityLabel: '국적',
+        preferredLangLabel: '선호 언어',
+        requiredMsg: '필수 항목을 입력해 주세요.',
+        nextBtn: '다음',
+        backBtn: '이전',
+        step2Title: '연락 정보를 입력해 주세요',
+        step2Sub: '이메일 인증 후, 유입 경로와 상담 채널을 등록합니다.',
+        emailLabel: '이메일',
+        emailHelper: '이메일 인증을 완료해 주세요.',
+        emailErr: '올바른 이메일을 입력해 주세요.',
+        emailVerifyLabel: '이메일 인증',
+        sendCodeBtn: '인증코드 발송',
+        verifyBtn: '인증 확인',
+        codeErr: '인증코드를 확인해 주세요.',
+        codeSuccess: '이메일 인증이 완료되었습니다.',
+        phoneLabel: '휴대전화 번호',
+        phoneHelper: '선택 입력 항목입니다.',
+        sourceLabel: '유입 경로',
+        sourceDetailLabel: '유입 경로 상세',
+        snsChannelLabel: '상담 희망 SNS',
+        snsAccountLabel: 'SNS 계정',
+        submitBtn: '등록 완료',
+        prevBtn: '이전',
+        completeTitle: '사전 회원 등록이 완료되었습니다',
+        completeDesc: '입력하신 정보를 바탕으로 이후 필요한 안내를 준비하겠습니다.',
+        resetBtn: '처음으로 돌아가기',
+        saveImageBtn: '신청정보 이미지로 저장하기',
+        verificationSent: '인증코드가 발송되었습니다.'
+      },
+      en: {
+        brandSub: 'Pre-registration',
+        heroTitle: 'Prepare for life in Korea<br />with easy pre-registration',
+        heroDesc: 'Register your basic information before arrival and receive faster guidance later.',
+        trust1Title: 'Pre-registration',
+        trust1Desc: 'Register only your basic information first',
+        trust2Title: 'Easy verification',
+        trust2Desc: 'Proceed after email verification',
+        trust3Title: 'Consultation',
+        trust3Desc: 'Get guidance through your preferred SNS channel',
+        eyebrow: 'FOREIGN CUSTOMER PRE-REGISTRATION',
+        landingTitle: 'Pre-registration for prospective foreign customers',
+        landingDesc: 'Register your nationality, language, and contact channel in advance for more accurate future guidance.',
+        bullet1: 'Enter only essential information step by step',
+        bullet2: 'Complete email verification before submission',
+        bullet3: 'Prepare consultation through your preferred SNS channel',
+        startBtn: 'Start pre-registration',
+        step1Title: 'Please enter your basic information',
+        step1Sub: 'Register your English name, nationality, and preferred language.',
+        lastNameLabel: 'Last name',
+        firstNameLabel: 'First name',
+        birthLabel: 'Date of birth',
+        genderLabel: 'Gender',
+        male: 'Male',
+        female: 'Female',
+        nationalityLabel: 'Nationality',
+        preferredLangLabel: 'Preferred language',
+        requiredMsg: 'Please fill in this required field.',
+        nextBtn: 'Next',
+        backBtn: 'Back',
+        step2Title: 'Please enter your contact information',
+        step2Sub: 'After email verification, register your referral source and consultation channel.',
+        emailLabel: 'Email',
+        emailHelper: 'Please complete email verification.',
+        emailErr: 'Please enter a valid email address.',
+        emailVerifyLabel: 'Email verification',
+        sendCodeBtn: 'Send code',
+        verifyBtn: 'Verify',
+        codeErr: 'Please check the verification code.',
+        codeSuccess: 'Email verified successfully.',
+        phoneLabel: 'Mobile number',
+        phoneHelper: 'This field is optional.',
+        sourceLabel: 'Referral source',
+        sourceDetailLabel: 'Referral details',
+        snsChannelLabel: 'Preferred SNS for consultation',
+        snsAccountLabel: 'SNS account',
+        submitBtn: 'Complete registration',
+        prevBtn: 'Back',
+        completeTitle: 'Pre-registration completed',
+        completeDesc: 'We will prepare future guidance based on the information you entered.',
+        resetBtn: 'Back to start',
+        saveImageBtn: 'Save application as image',
+        verificationSent: 'Verification code sent.'
+      }
+    };
+
+    ['vi', 'id', 'km', 'zh', 'my', 'th'].forEach(key => {
+      translations[key] = { ...translations.en };
+    });
+
+    const optionData = {
+      nationality: ['Vietnam', 'China', 'Philippines', 'Nepal', 'Cambodia', 'Indonesia', 'United States', 'Canada', 'Australia', 'United Kingdom', 'Singapore', 'Malaysia', 'Thailand', 'Myanmar'],
+      languages: ['한국어', 'English', 'Tiếng Việt', 'Indonesia', 'ខ្មែរ', '中文', 'မြန်မာ', 'ไทย'],
+      source: ['Facebook', 'Instagram', 'Zalo', 'WhatsApp', 'Google Search', 'Friend Referral', 'Offline Partner', 'Etc'],
+      sns: ['Facebook', 'Zalo', 'Instagram', 'WhatsApp']
+    };
+
+    const state = {
+      lang: 'ko',
+      emailVerified: false,
+      emailCodeSent: false
+    };
+
+    const pages = {
+      landing: document.getElementById('landingPage'),
+      step1: document.getElementById('step1Page'),
+      step2: document.getElementById('step2Page'),
+      complete: document.getElementById('completePage')
+    };
+
+    const inputs = {
+      lastName: document.getElementById('lastName'),
+      firstName: document.getElementById('firstName'),
+      birthDate: document.getElementById('birthDate'),
+      nationality: document.getElementById('nationality'),
+      preferredLanguage: document.getElementById('preferredLanguage'),
+      email: document.getElementById('email'),
+      emailCode: document.getElementById('emailCode'),
+      phone: document.getElementById('phone'),
+      source: document.getElementById('source'),
+      sourceDetail: document.getElementById('sourceDetail'),
+      snsChannel: document.getElementById('snsChannel'),
+      snsAccount: document.getElementById('snsAccount')
+    };
+
+    const errors = {
+      lastName: document.getElementById('lastNameErr'),
+      firstName: document.getElementById('firstNameErr'),
+      birthDate: document.getElementById('birthDateErr'),
+      gender: document.getElementById('genderErr'),
+      nationality: document.getElementById('nationalityErr'),
+      preferredLanguage: document.getElementById('preferredLanguageErr'),
+      email: document.getElementById('emailErr'),
+      emailCode: document.getElementById('emailCodeErr'),
+      emailCodeSuccess: document.getElementById('emailCodeSuccess'),
+      source: document.getElementById('sourceErr'),
+      snsChannel: document.getElementById('snsChannelErr'),
+      snsAccount: document.getElementById('snsAccountErr')
+    };
+
+    const langToggle = document.getElementById('langToggle');
+    const langMenu = document.getElementById('langMenu');
+    const currentFlag = document.getElementById('currentFlag');
+    const currentLang = document.getElementById('currentLang');
+
+    function populateSelect(select, items, placeholder) {
+      select.innerHTML = '';
+      const first = document.createElement('option');
+      first.value = '';
+      first.textContent = placeholder;
+      select.appendChild(first);
+      items.forEach(item => {
+        const opt = document.createElement('option');
+        opt.value = item;
+        opt.textContent = item;
+        select.appendChild(opt);
+      });
+    }
+
+    function setLanguage(lang, flag, label) {
+      state.lang = lang;
+      document.documentElement.lang = lang;
+      document.querySelectorAll('.lang-item').forEach(btn => {
+        btn.classList.toggle('active', btn.dataset.lang === lang);
+      });
+      currentFlag.textContent = flag;
+      currentLang.textContent = label;
+      document.querySelectorAll('[data-i18n]').forEach(node => {
+        const key = node.dataset.i18n;
+        if (translations[lang] && translations[lang][key]) {
+          node.innerHTML = translations[lang][key];
+        }
+      });
+      populateSelect(inputs.nationality, optionData.nationality, translations[lang].nationalityLabel);
+      populateSelect(inputs.preferredLanguage, optionData.languages, translations[lang].preferredLangLabel);
+      populateSelect(inputs.source, optionData.source, translations[lang].sourceLabel);
+      populateSelect(inputs.snsChannel, optionData.sns, translations[lang].snsChannelLabel);
+    }
+
+    function showPage(pageKey) {
+      Object.values(pages).forEach(page => page.classList.remove('active'));
+      pages[pageKey].classList.add('active');
+      window.scrollTo({ top: 0, behavior: 'smooth' });
+    }
+
+    function showError(node, visible) {
+      node.style.display = visible ? 'block' : 'none';
+    }
+
+    function validEmail(value) {
+      return /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(value);
+    }
+
+    function getGenderValue() {
+      const checked = document.querySelector('input[name="gender"]:checked');
+      return checked ? checked.value : '';
+    }
+
+    function validateStep1() {
+      let ok = true;
+      showError(errors.lastName, !inputs.lastName.value.trim());
+      showError(errors.firstName, !inputs.firstName.value.trim());
+      showError(errors.birthDate, !inputs.birthDate.value);
+      showError(errors.gender, !getGenderValue());
+      showError(errors.nationality, !inputs.nationality.value);
+      showError(errors.preferredLanguage, !inputs.preferredLanguage.value);
+      if (!inputs.lastName.value.trim()) ok = false;
+      if (!inputs.firstName.value.trim()) ok = false;
+      if (!inputs.birthDate.value) ok = false;
+      if (!getGenderValue()) ok = false;
+      if (!inputs.nationality.value) ok = false;
+      if (!inputs.preferredLanguage.value) ok = false;
+      return ok;
+    }
+
+    function validateStep2() {
+      let ok = true;
+      showError(errors.email, !validEmail(inputs.email.value.trim()));
+      showError(errors.emailCode, !state.emailVerified);
+      showError(errors.source, !inputs.source.value);
+      showError(errors.snsChannel, !inputs.snsChannel.value);
+      showError(errors.snsAccount, !inputs.snsAccount.value.trim());
+      if (!validEmail(inputs.email.value.trim())) ok = false;
+      if (!state.emailVerified) ok = false;
+      if (!inputs.source.value) ok = false;
+      if (!inputs.snsChannel.value) ok = false;
+      if (!inputs.snsAccount.value.trim()) ok = false;
+      return ok;
+    }
+
+    function buildSummary() {
+      document.getElementById('summaryLastName').textContent = inputs.lastName.value || '-';
+      document.getElementById('summaryFirstName').textContent = inputs.firstName.value || '-';
+      document.getElementById('summaryBirth').textContent = inputs.birthDate.value || '-';
+      document.getElementById('summaryGender').textContent = getGenderValue() === 'male' ? translations[state.lang].male : translations[state.lang].female;
+      document.getElementById('summaryNationality').textContent = inputs.nationality.value || '-';
+      document.getElementById('summaryPreferredLanguage').textContent = inputs.preferredLanguage.value || '-';
+      document.getElementById('summaryEmail').textContent = inputs.email.value || '-';
+      document.getElementById('summaryPhone').textContent = inputs.phone.value || '-';
+      document.getElementById('summarySource').textContent = inputs.source.value || '-';
+      document.getElementById('summarySourceDetail').textContent = inputs.sourceDetail.value || '-';
+      document.getElementById('summarySnsChannel').textContent = inputs.snsChannel.value || '-';
+      document.getElementById('summarySnsAccount').textContent = inputs.snsAccount.value || '-';
+    }
+
+    function downloadTxt() {
+      const content = [
+        `Last Name: ${inputs.lastName.value}`,
+        `First Name: ${inputs.firstName.value}`,
+        `Birth Date: ${inputs.birthDate.value}`,
+        `Gender: ${getGenderValue()}`,
+        `Nationality: ${inputs.nationality.value}`,
+        `Preferred Language: ${inputs.preferredLanguage.value}`,
+        `Email: ${inputs.email.value}`,
+        `Phone: ${inputs.phone.value}`,
+        `Source: ${inputs.source.value}`,
+        `Source Detail: ${inputs.sourceDetail.value}`,
+        `SNS Channel: ${inputs.snsChannel.value}`,
+        `SNS Account: ${inputs.snsAccount.value}`
+      ].join('\n');
+      const blob = new Blob([content], { type: 'text/plain;charset=utf-8' });
+      const link = document.createElement('a');
+      link.href = URL.createObjectURL(blob);
+      link.download = `pre_registration_${Date.now()}.txt`;
+      document.body.appendChild(link);
+      link.click();
+      link.remove();
+      URL.revokeObjectURL(link.href);
+    }
+
+    function resetForm() {
+      document.querySelectorAll('input').forEach(input => {
+        if (input.type === 'radio') input.checked = false;
+        else input.value = '';
+      });
+      document.querySelectorAll('select').forEach(select => {
+        select.selectedIndex = 0;
+      });
+      state.emailVerified = false;
+      state.emailCodeSent = false;
+      document.getElementById('codeWrap').classList.remove('show');
+      showError(errors.emailCode, false);
+      errors.emailCodeSuccess.style.display = 'none';
+      showPage('landing');
+    }
+
+    langToggle.addEventListener('click', () => {
+      langMenu.classList.toggle('open');
+    });
+
+    document.addEventListener('click', (e) => {
+      if (!e.target.closest('.lang-wrap')) {
+        langMenu.classList.remove('open');
+      }
+    });
+
+    document.querySelectorAll('.lang-item').forEach(btn => {
+      btn.addEventListener('click', () => {
+        setLanguage(btn.dataset.lang, btn.dataset.flag, btn.dataset.label);
+        langMenu.classList.remove('open');
+      });
+    });
+
+    document.getElementById('startBtn').addEventListener('click', () => showPage('step1'));
+    document.getElementById('backLandingBtn').addEventListener('click', () => showPage('landing'));
+    document.getElementById('toStep2Btn').addEventListener('click', () => {
+      if (validateStep1()) showPage('step2');
+    });
+    document.getElementById('toStep1Btn').addEventListener('click', () => showPage('step1'));
+
+    document.getElementById('sendCodeBtn').addEventListener('click', () => {
+      if (!validEmail(inputs.email.value.trim())) {
+        showError(errors.email, true);
+        return;
+      }
+      showError(errors.email, false);
+      state.emailCodeSent = true;
+      state.emailVerified = false;
+      document.getElementById('codeWrap').classList.add('show');
+      errors.emailCodeSuccess.style.display = 'none';
+      alert(translations[state.lang].verificationSent);
+    });
+
+    document.getElementById('verifyCodeBtn').addEventListener('click', () => {
+      if (!state.emailCodeSent) return;
+      if (inputs.emailCode.value.trim() === '000000') {
+        state.emailVerified = true;
+        showError(errors.emailCode, false);
+        errors.emailCodeSuccess.style.display = 'block';
+      } else {
+        state.emailVerified = false;
+        errors.emailCodeSuccess.style.display = 'none';
+        showError(errors.emailCode, true);
+      }
+    });
+
+    document.getElementById('submitBtn').addEventListener('click', () => {
+      if (!validateStep2()) return;
+      buildSummary();
+      showPage('complete');
+      downloadTxt();
+    });
+
+    document.getElementById('resetBtn').addEventListener('click', resetForm);
+
+    document.getElementById('saveImageBtn').addEventListener('click', async () => {
+      const target = document.getElementById('captureArea');
+      const canvas = await html2canvas(target, {
+        backgroundColor: '#ffffff',
+        scale: 2,
+        useCORS: true
+      });
+      canvas.toBlob(blob => {
+        if (!blob) return;
+        const link = document.createElement('a');
+        link.href = URL.createObjectURL(blob);
+        link.download = `application_summary_${Date.now()}.png`;
+        document.body.appendChild(link);
+        link.click();
+        link.remove();
+        URL.revokeObjectURL(link.href);
+      }, 'image/png');
+    });
+
+    setLanguage('ko', '🇰🇷', '한국어');
+  </script>
+</body>
+</html>
