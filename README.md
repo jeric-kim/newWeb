@@ -17,3 +17,5 @@ python -m http.server 8000
 
 ## 데이터 보관 주의
 실제 백엔드가 없는 데모이므로 모든 데이터는 브라우저 `localStorage`에 저장됩니다. 브라우저를 변경하거나 캐시를 삭제하면 데이터가 사라집니다.
+
+https://github.com/user-attachments/assets/635d721e-2257-4ca3-978b-1a67941d1bab
