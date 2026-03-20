@@ -1,0 +1,456 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, viewport-fit=cover" />
+  <title>SBI Cosmoney | 외국인 사전 회원 등록</title>
+  <meta name="description" content="SBI Cosmoney 외국인 가망고객 대상 사전 회원 등록" />
+  <style>
+    :root {
+      --brand:#3B45F3;
+      --brand-dark:#2e37d8;
+      --brand-soft:#eef0ff;
+      --bg:#ffffff;
+      --ink:#151822;
+      --muted:#667085;
+      --line:#e7eaf4;
+      --card:#ffffff;
+      --danger:#d92d20;
+      --success:#067647;
+      --shadow:0 12px 32px rgba(15,23,42,.08);
+      --radius-lg:26px;
+      --radius-md:18px;
+      --radius-sm:14px;
+      --wrap:560px;
+    }
+    *{box-sizing:border-box}
+    html{scroll-behavior:smooth}
+    body{
+      margin:0;
+      font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,'Noto Sans KR','Apple SD Gothic Neo',sans-serif;
+      background:linear-gradient(180deg,#f8f9ff 0%,#ffffff 22%,#ffffff 100%);
+      color:var(--ink);
+      -webkit-font-smoothing:antialiased;
+      text-rendering:optimizeLegibility;
+    }
+    img{max-width:100%;display:block}
+    button,input,select{font:inherit}
+    .app{max-width:var(--wrap);margin:0 auto;padding:0 18px 36px}
+    .lang-bar{position:sticky;top:0;z-index:50;background:rgba(255,255,255,.88);backdrop-filter:blur(12px);border-bottom:1px solid rgba(231,234,244,.9)}
+    .lang-inner{max-width:var(--wrap);margin:0 auto;padding:10px 18px 12px}
+    .lang-title{font-size:12px;font-weight:700;color:#4b5565;margin-bottom:8px}
+    .lang-grid{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:8px}
+    .lang-btn{
+      border:1px solid var(--line);
+      background:#fff;
+      border-radius:999px;
+      padding:9px 10px;
+      display:flex;
+      align-items:center;
+      justify-content:center;
+      gap:6px;
+      font-size:12px;
+      font-weight:700;
+      color:#24304a;
+      cursor:pointer;
+      min-height:40px;
+      transition:.2s ease;
+    }
+    .lang-btn.active{background:var(--brand);border-color:var(--brand);color:#fff;box-shadow:0 10px 22px rgba(59,69,243,.22)}
+    .flag{font-size:15px;line-height:1}
+    .hero{padding:22px 0 18px}
+    .logo-wrap{
+      width:56px;height:56px;border-radius:18px;background:#fff;display:flex;align-items:center;justify-content:center;
+      box-shadow:0 12px 30px rgba(59,69,243,.12);border:1px solid rgba(59,69,243,.12);margin-bottom:16px;overflow:hidden
+    }
+    .logo-wrap img{width:40px;height:40px;object-fit:contain}
+    h1{font-size:32px;line-height:1.18;margin:0 0 10px;font-weight:900;letter-spacing:-.04em}
+    .hero p{margin:0;color:#556074;font-size:15px;line-height:1.7}
+    .trust{
+      display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:10px;margin-top:18px
+    }
+    .trust-item{
+      background:#fff;border:1px solid var(--line);border-radius:18px;padding:13px 12px;text-align:center;box-shadow:0 8px 20px rgba(15,23,42,.04)
+    }
+    .trust-item strong{display:block;font-size:14px;font-weight:800;color:#1d273f}
+    .trust-item span{display:block;font-size:11px;color:#6b7280;margin-top:4px;line-height:1.45}
+    .card{
+      background:var(--card);border:1px solid var(--line);border-radius:var(--radius-lg);box-shadow:var(--shadow)
+    }
+    .landing-card{padding:24px 18px 20px;margin-top:14px}
+    .eyebrow{display:inline-flex;align-items:center;gap:6px;padding:7px 12px;border-radius:999px;background:var(--brand-soft);color:var(--brand);font-size:12px;font-weight:800;margin-bottom:12px}
+    .section-title{font-size:22px;line-height:1.32;margin:0 0 8px;font-weight:900;letter-spacing:-.03em}
+    .section-desc{font-size:14px;line-height:1.7;color:#667085;margin:0}
+    .bullet-list{display:grid;gap:10px;margin:18px 0 22px;padding:0;list-style:none}
+    .bullet-list li{display:flex;align-items:flex-start;gap:10px;font-size:14px;line-height:1.6;color:#1f2a44}
+    .bullet-list li::before{content:'✓';width:22px;height:22px;border-radius:999px;background:var(--brand-soft);color:var(--brand);display:flex;align-items:center;justify-content:center;font-size:12px;font-weight:900;flex:0 0 22px;margin-top:1px}
+    .cta-btn,.next-btn,.prev-btn,.submit-btn,.ghost-btn,.verify-btn,.save-btn{
+      width:100%;border:0;border-radius:18px;padding:16px 18px;font-weight:900;font-size:15px;cursor:pointer;transition:.2s ease
+    }
+    .cta-btn,.next-btn,.submit-btn,.verify-btn,.save-btn{background:var(--brand);color:#fff;box-shadow:0 14px 26px rgba(59,69,243,.24)}
+    .cta-btn:hover,.next-btn:hover,.submit-btn:hover,.verify-btn:hover,.save-btn:hover{background:var(--brand-dark)}
+    .ghost-btn,.prev-btn{background:#fff;color:#24304a;border:1px solid var(--line)}
+    .step-page{display:none;margin-top:18px}
+    .step-page.active{display:block}
+    .step-card{padding:22px 18px 22px}
+    .step-top{display:flex;align-items:flex-start;justify-content:space-between;gap:14px;margin-bottom:18px}
+    .step-label{font-size:12px;font-weight:900;color:var(--brand);letter-spacing:.08em}
+    .step-title{margin:5px 0 0;font-size:24px;line-height:1.25;font-weight:900;letter-spacing:-.03em}
+    .step-sub{font-size:13px;color:#667085;line-height:1.6;margin-top:8px}
+    .progress{display:flex;gap:8px;align-items:center;justify-content:flex-end}
+    .dot{width:34px;height:8px;border-radius:999px;background:#e6e9f5}
+    .dot.active{background:var(--brand)}
+    .form-grid{display:grid;gap:14px}
+    .field{
+      display:grid;
+      grid-template-columns:minmax(112px,132px) minmax(0,1fr);
+      align-items:center;
+      gap:12px;
+      width:100%;
+    }
+    .label{
+      font-size:13px;
+      font-weight:800;
+      color:#24304a;
+      line-height:1.45;
+      word-break:keep-all;
+    }
+    .control{min-width:0;width:100%}
+    .control input,.control select{
+      width:100%;height:52px;border:1px solid #d8deee;border-radius:16px;background:#fff;padding:0 15px;font-size:15px;color:#1a2237;outline:none;transition:.2s ease
+    }
+    .control input:focus,.control select:focus{border-color:var(--brand);box-shadow:0 0 0 4px rgba(59,69,243,.10)}
+    .inline-2{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+    .segmented{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+    .segmented input{display:none}
+    .segmented label{
+      min-height:52px;display:flex;align-items:center;justify-content:center;border:1px solid #d8deee;border-radius:16px;background:#fff;font-size:14px;font-weight:800;color:#24304a;cursor:pointer;padding:0 12px;text-align:center
+    }
+    .segmented input:checked + label{background:var(--brand-soft);border-color:var(--brand);color:var(--brand)}
+    .radio-grid{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:10px}
+    .radio-grid input{display:none}
+    .radio-grid label{
+      min-height:52px;display:flex;align-items:center;justify-content:center;border:1px solid #d8deee;border-radius:16px;background:#fff;font-size:14px;font-weight:800;color:#24304a;cursor:pointer;padding:0 10px;text-align:center
+    }
+    .radio-grid input:checked + label{background:var(--brand-soft);border-color:var(--brand);color:var(--brand)}
+    .helper{font-size:12px;color:#6b7280;line-height:1.5;margin-top:7px}
+    .error{font-size:12px;color:var(--danger);margin-top:7px;display:none}
+    .success{font-size:12px;color:var(--success);margin-top:7px;display:none}
+    .action-stack{display:grid;gap:10px;margin-top:22px}
+    .verify-row{display:grid;grid-template-columns:1fr auto;gap:10px}
+    .verify-row .verify-btn{width:auto;min-width:112px;padding-inline:16px}
+    .code-wrap{display:none;margin-top:10px}
+    .code-wrap.show{display:block}
+    .complete-card{padding:22px 18px 24px;margin-top:18px}
+    .complete-head{text-align:center;margin-bottom:18px}
+    .complete-badge{width:62px;height:62px;border-radius:999px;background:rgba(6,118,71,.12);color:var(--success);display:flex;align-items:center;justify-content:center;font-size:30px;font-weight:900;margin:0 auto 14px}
+    .complete-title{font-size:26px;line-height:1.24;margin:0;font-weight:900;letter-spacing:-.03em}
+    .complete-desc{font-size:14px;color:#667085;line-height:1.65;margin:10px 0 0}
+    .summary-box{background:#f8f9ff;border:1px solid var(--line);border-radius:22px;padding:16px;margin-top:16px}
+    .summary-row{display:grid;grid-template-columns:110px 1fr;gap:10px;padding:10px 0;border-bottom:1px dashed #d9dfee}
+    .summary-row:last-child{border-bottom:0}
+    .summary-row dt{font-size:12px;font-weight:800;color:#667085}
+    .summary-row dd{margin:0;font-size:14px;font-weight:700;color:#1b2338;word-break:break-word;line-height:1.55}
+    .footer-space{height:30px}
+    .hide{display:none !important}
+    .required::after{content:' *';color:var(--brand)}
+    .sr-only{position:absolute;width:1px;height:1px;padding:0;margin:-1px;overflow:hidden;clip:rect(0,0,0,0);white-space:nowrap;border:0}
+    @media (max-width:520px){
+      .app{padding:0 16px 28px}
+      .lang-inner{padding:10px 16px 12px}
+      .lang-grid{grid-template-columns:repeat(2,minmax(0,1fr))}
+      h1{font-size:28px}
+      .trust{grid-template-columns:1fr}
+      .field{grid-template-columns:1fr;gap:8px}
+      .label{font-size:13px}
+      .radio-grid{grid-template-columns:repeat(2,minmax(0,1fr))}
+      .summary-row{grid-template-columns:1fr;gap:4px}
+    }
+  </style>
+</head>
+<body>
+  <div class="lang-bar">
+    <div class="lang-inner">
+      <div class="lang-title" data-i18n="langTitle">언어 선택</div>
+      <div class="lang-grid">
+        <button class="lang-btn active" data-lang="ko"><span class="flag">🇰🇷</span><span>한국어</span></button>
+        <button class="lang-btn" data-lang="en"><span class="flag">🇺🇸</span><span>English</span></button>
+        <button class="lang-btn" data-lang="vi"><span class="flag">🇻🇳</span><span>Tiếng Việt</span></button>
+        <button class="lang-btn" data-lang="id"><span class="flag">🇮🇩</span><span>Indonesia</span></button>
+        <button class="lang-btn" data-lang="km"><span class="flag">🇰🇭</span><span>ខ្មែរ</span></button>
+        <button class="lang-btn" data-lang="zh"><span class="flag">🇨🇳</span><span>中文</span></button>
+        <button class="lang-btn" data-lang="my"><span class="flag">🇲🇲</span><span>မြန်မာ</span></button>
+        <button class="lang-btn" data-lang="th"><span class="flag">🇹🇭</span><span>ไทย</span></button>
+      </div>
+    </div>
+  </div>
+
+  <main class="app">
+    <section id="landingPage" class="landing-page active">
+      <div class="hero">
+        <div class="logo-wrap" aria-label="SBI Cosmoney logo">
+          <img alt="SBI Cosmoney" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAASwAAAEuCAYAAAB4n1aZAAAACXBIWXMAAAsSAAALEgHS3X78AAAgAElEQVR4nO3de5BVdZ3/8fdGGWQJQQ0cQXJJS1TQjFWbIY2mZTa2C9N0h2mT5dC02k2k2dLxYVep1m6Rla1kq7W5aVq2dN20YhMZV1o8E2JpKxM0OQqQQFQZ0QE+N8/7j7vPefc+71zzj3n3Hvvvfd+3/P9fD7n3Dvn3nPuOeeccw4AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAABgqvYb8Vg7m5W0m4a7TQm4+u6vS4F7r3v1d1m1c1a7Xw0XW7u7q3J1YyV2k1J+6m1r5j+1N2M3q7mE8fL9u8sVvQ0v5xk3F6Gf2o9f8m+g5nWnO7i8d8Pqzv8tP8s2cZx6m8c1fL3w4G2z9Pq0fO1VY2m+uQ4hG0jvP7kqk2m2Q9sN2r3l1Qm7xv0s5r7s9P9h7YlS4m7b9m0x4+v2d8z+1u8l9QkX4m5fQ0l6jv3mP7M6v7z2z6v8m2l6YQ9tX4k6l8q7d7m3p+f+P7q7e8Q+Y9v0f1p7e8mT2m9m4vWm3s3p8rVn+6v8mX7b5f7n9O9Wv8f8n7l+5m5c5m0v2R8+1p8g7n7n8m7m8m7k+2v6b6a3t8e1r7Y+8n7z7m5x7l7m4e5j6e7f9s6f8m8c5f8p9s7m9b8c9v7r7x7+f+8e7v7w7d9w+Q0f6o9v9m7f8YfX6G5g1WvQ7e7J9v7n8l6H2c6m4m6v8u7t8g8a+Y5WlXn7q7k6k6h5z7m4m6W2p7r7p8k7b5m6m7j7u7Y7m8x6a7c6j6p7m7W7k8l6V7Y8c8b7h8W9d+Y9l+f+o5p+e+Z+v+V+J0nP7t9r7l8i6k7m7m7V6b8x7a9y8U8h+V9b9m8g8a8f+O+v+u+S+W+Q1ZfP3m2c9M3r3q8o3S7d2y9N5m3o8S7d4o8T7d6m9Q7u6s9V7u5r9V7u4q9U7u3q9V7u5q9U7u4p9U7u3p9U7u2o9U7u2o9T7u1n9T7u1m9T7u0m9T7u0l9T7tzl9S7tzk9S7tyk9S7txj9S7txi9S7twh9R7twh9R7tvh9R7tvg9R7tug9R7ttg9Q7ttf9Q7tsf9Q7trf9Q7trf9Q7tqe8/1z5t8e1x4nV0QAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAD4X/8B5R8m9u0r6d0AAAAASUVORK5CYII=" />
+        </div>
+        <h1 data-i18n="heroTitle">한국 생활 준비,<br />사전 회원 등록으로 더 간편하게</h1>
+        <p data-i18n="heroDesc">입국 전 기본 정보를 등록하고, 입국 후 필요한 서비스 안내를 빠르게 받아보세요.</p>
+        <div class="trust">
+          <div class="trust-item">
+            <strong data-i18n="trust1Title">사전 등록</strong>
+            <span data-i18n="trust1Desc">기본 정보만 먼저 등록할 수 있어요</span>
+          </div>
+          <div class="trust-item">
+            <strong data-i18n="trust2Title">간편 인증</strong>
+            <span data-i18n="trust2Desc">이메일 확인 후 등록을 진행해요</span>
+          </div>
+          <div class="trust-item">
+            <strong data-i18n="trust3Title">상담 연결</strong>
+            <span data-i18n="trust3Desc">희망하는 SNS 채널로 안내받을 수 있어요</span>
+          </div>
+        </div>
+      </div>
+
+      <div class="card landing-card">
+        <span class="eyebrow" data-i18n="eyebrow">FOREIGN CUSTOMER PRE-REGISTRATION</span>
+        <h2 class="section-title" data-i18n="landingTitle">외국인 가망 고객을 위한 사전 회원 등록</h2>
+        <p class="section-desc" data-i18n="landingDesc">국적과 언어, 연락 수단을 먼저 등록하면 이후 필요한 안내를 더 정확하게 받을 수 있습니다.</p>
+        <ul class="bullet-list">
+          <li data-i18n="bullet1">필수 정보만 단계별로 간단하게 입력</li>
+          <li data-i18n="bullet2">이메일 인증 후 등록 진행</li>
+          <li data-i18n="bullet3">희망하는 SNS 채널로 상담 연결 준비</li>
+        </ul>
+        <button class="cta-btn" id="startBtn" data-i18n="startBtn">사전 회원 등록 시작</button>
+      </div>
+    </section>
+
+    <section id="step1Page" class="step-page">
+      <div class="card step-card">
+        <div class="step-top">
+          <div>
+            <div class="step-label">STEP 1</div>
+            <h2 class="step-title" data-i18n="step1Title">기본 정보를 입력해 주세요</h2>
+            <div class="step-sub" data-i18n="step1Sub">영문 이름과 국적, 선호 언어를 등록합니다.</div>
+          </div>
+          <div class="progress" aria-label="progress">
+            <span class="dot active"></span><span class="dot"></span>
+          </div>
+        </div>
+
+        <div class="form-grid">
+          <div class="field">
+            <label class="label required" for="lastName" data-i18n="lastNameLabel">영문 성</label>
+            <div class="control">
+              <input id="lastName" type="text" placeholder="Go" />
+              <div class="error" id="lastNameErr" data-i18n="requiredMsg">필수 항목을 입력해 주세요.</div>
+            </div>
+          </div>
+
+          <div class="field">
+            <label class="label required" for="firstName" data-i18n="firstNameLabel">영문 이름</label>
+            <div class="control">
+              <input id="firstName" type="text" placeholder="Yoonjeong" />
+              <div class="error" id="firstNameErr" data-i18n="requiredMsg">필수 항목을 입력해 주세요.</div>
+            </div>
+          </div>
+
+          <div class="field">
+            <label class="label required" for="birthDate" data-i18n="birthLabel">생년월일</label>
+            <div class="control">
+              <input id="birthDate" type="date" />
+              <div class="error" id="birthDateErr" data-i18n="requiredMsg">필수 항목을 입력해 주세요.</div>
+            </div>
+          </div>
+
+          <div class="field">
+            <span class="label required" data-i18n="genderLabel">성별</span>
+            <div class="control">
+              <div class="segmented">
+                <div>
+                  <input type="radio" name="gender" id="genderMale" value="male" />
+                  <label for="genderMale" data-i18n="male">남성</label>
+                </div>
+                <div>
+                  <input type="radio" name="gender" id="genderFemale" value="female" />
+                  <label for="genderFemale" data-i18n="female">여성</label>
+                </div>
+              </div>
+              <div class="error" id="genderErr" data-i18n="requiredMsg">필수 항목을 입력해 주세요.</div>
+            </div>
+          </div>
+
+          <div class="field">
+            <label class="label required" for="nationality" data-i18n="nationalityLabel">국적</label>
+            <div class="control">
+              <select id="nationality"></select>
+              <div class="error" id="nationalityErr" data-i18n="requiredMsg">필수 항목을 입력해 주세요.</div>
+            </div>
+          </div>
+
+          <div class="field">
+            <label class="label required" for="preferredLanguage" data-i18n="preferredLangLabel">선호 언어</label>
+            <div class="control">
+              <select id="preferredLanguage"></select>
+              <div class="error" id="preferredLanguageErr" data-i18n="requiredMsg">필수 항목을 입력해 주세요.</div>
+            </div>
+          </div>
+        </div>
+
+        <div class="action-stack">
+          <button class="next-btn" id="toStep2Btn" data-i18n="nextBtn">다음</button>
+          <button class="ghost-btn" id="backLandingBtn" data-i18n="backBtn">이전</button>
+        </div>
+      </div>
+    </section>
+
+    <section id="step2Page" class="step-page">
+      <div class="card step-card">
+        <div class="step-top">
+          <div>
+            <div class="step-label">STEP 2</div>
+            <h2 class="step-title" data-i18n="step2Title">연락 정보를 입력해 주세요</h2>
+            <div class="step-sub" data-i18n="step2Sub">이메일 인증 후, 유입 경로와 상담 채널을 등록합니다.</div>
+          </div>
+          <div class="progress" aria-label="progress">
+            <span class="dot active"></span><span class="dot active"></span>
+          </div>
+        </div>
+
+        <div class="form-grid">
+          <div class="field">
+            <label class="label required" for="email" data-i18n="emailLabel">이메일</label>
+            <div class="control">
+              <input id="email" type="email" placeholder="name@example.com" />
+              <div class="helper" data-i18n="emailHelper">이메일 인증을 완료해 주세요.</div>
+              <div class="error" id="emailErr" data-i18n="emailErr">올바른 이메일을 입력해 주세요.</div>
+            </div>
+          </div>
+
+          <div class="field">
+            <span class="label required" data-i18n="emailVerifyLabel">이메일 인증</span>
+            <div class="control">
+              <div class="verify-row">
+                <button type="button" class="verify-btn" id="sendCodeBtn" data-i18n="sendCodeBtn">인증코드 발송</button>
+              </div>
+              <div class="code-wrap" id="codeWrap">
+                <div class="verify-row">
+                  <input id="emailCode" type="text" inputmode="numeric" placeholder="000000" maxlength="6" />
+                  <button type="button" class="verify-btn" id="verifyCodeBtn" data-i18n="verifyBtn">인증 확인</button>
+                </div>
+                <div class="error" id="emailCodeErr" data-i18n="codeErr">인증코드를 확인해 주세요.</div>
+                <div class="success" id="emailCodeSuccess" data-i18n="codeSuccess">이메일 인증이 완료되었습니다.</div>
+              </div>
+            </div>
+          </div>
+
+          <div class="field">
+            <label class="label" for="phone" data-i18n="phoneLabel">휴대전화 번호</label>
+            <div class="control">
+              <input id="phone" type="tel" placeholder="010-0000-0000" />
+              <div class="helper" data-i18n="phoneHelper">선택 입력 항목입니다.</div>
+            </div>
+          </div>
+
+          <div class="field">
+            <label class="label required" for="source" data-i18n="sourceLabel">유입 경로</label>
+            <div class="control">
+              <select id="source"></select>
+              <div class="error" id="sourceErr" data-i18n="requiredMsg">필수 항목을 입력해 주세요.</div>
+            </div>
+          </div>
+
+          <div class="field">
+            <label class="label" for="sourceDetail" data-i18n="sourceDetailLabel">유입 경로 상세</label>
+            <div class="control">
+              <input id="sourceDetail" type="text" placeholder="예: Facebook 광고 / 친구 소개" />
+            </div>
+          </div>
+
+          <div class="field">
+            <label class="label required" for="snsChannel" data-i18n="snsChannelLabel">상담 희망 SNS</label>
+            <div class="control">
+              <select id="snsChannel"></select>
+              <div class="error" id="snsChannelErr" data-i18n="requiredMsg">필수 항목을 입력해 주세요.</div>
+            </div>
+          </div>
+
+          <div class="field">
+            <label class="label required" for="snsAccount" data-i18n="snsAccountLabel">SNS 계정</label>
+            <div class="control">
+              <input id="snsAccount" type="text" placeholder="@account / profile link" />
+              <div class="error" id="snsAccountErr" data-i18n="requiredMsg">필수 항목을 입력해 주세요.</div>
+            </div>
+          </div>
+        </div>
+
+        <div class="action-stack">
+          <button class="submit-btn" id="submitBtn" data-i18n="submitBtn">등록 완료</button>
+          <button class="prev-btn" id="toStep1Btn" data-i18n="prevBtn">이전</button>
+        </div>
+      </div>
+    </section>
+
+    <section id="completePage" class="step-page">
+      <div class="card complete-card">
+        <div class="complete-head">
+          <div class="complete-badge">✓</div>
+          <h2 class="complete-title" data-i18n="completeTitle">사전 회원 등록이 완료되었습니다</h2>
+          <p class="complete-desc" data-i18n="completeDesc">입력하신 정보를 바탕으로 이후 필요한 안내를 준비하겠습니다.</p>
+        </div>
+
+        <div id="captureArea" class="summary-box">
+          <dl class="summary-row"><dt data-i18n="lastNameLabel">영문 성</dt><dd id="summaryLastName"></dd></dl>
+          <dl class="summary-row"><dt data-i18n="firstNameLabel">영문 이름</dt><dd id="summaryFirstName"></dd></dl>
+          <dl class="summary-row"><dt data-i18n="birthLabel">생년월일</dt><dd id="summaryBirth"></dd></dl>
+          <dl class="summary-row"><dt data-i18n="genderLabel">성별</dt><dd id="summaryGender"></dd></dl>
+          <dl class="summary-row"><dt data-i18n="nationalityLabel">국적</dt><dd id="summaryNationality"></dd></dl>
+          <dl class="summary-row"><dt data-i18n="preferredLangLabel">선호 언어</dt><dd id="summaryPreferredLanguage"></dd></dl>
+          <dl class="summary-row"><dt data-i18n="emailLabel">이메일</dt><dd id="summaryEmail"></dd></dl>
+          <dl class="summary-row"><dt data-i18n="phoneLabel">휴대전화 번호</dt><dd id="summaryPhone"></dd></dl>
+          <dl class="summary-row"><dt data-i18n="sourceLabel">유입 경로</dt><dd id="summarySource"></dd></dl>
+          <dl class="summary-row"><dt data-i18n="sourceDetailLabel">유입 경로 상세</dt><dd id="summarySourceDetail"></dd></dl>
+          <dl class="summary-row"><dt data-i18n="snsChannelLabel">상담 희망 SNS</dt><dd id="summarySnsChannel"></dd></dl>
+          <dl class="summary-row"><dt data-i18n="snsAccountLabel">SNS 계정</dt><dd id="summarySnsAccount"></dd></dl>
+        </div>
+
+        <div class="action-stack">
+          <button class="save-btn" id="saveImageBtn" data-i18n="saveImageBtn">신청정보 이미지로 저장하기</button>
+          <button class="ghost-btn" id="resetBtn" data-i18n="resetBtn">처음으로 돌아가기</button>
+        </div>
+      </div>
+    </section>
+
+    <div class="footer-space"></div>
+  </main>
+
+  <script src="https://cdn.jsdelivr.net/npm/html2canvas@1.4.1/dist/html2canvas.min.js"></script>
+  <script>
+    const translations = {ko:{langTitle:'언어 선택',heroTitle:'한국 생활 준비,<br />사전 회원 등록으로 더 간편하게',heroDesc:'입국 전 기본 정보를 등록하고, 입국 후 필요한 서비스 안내를 빠르게 받아보세요.',trust1Title:'사전 등록',trust1Desc:'기본 정보만 먼저 등록할 수 있어요',trust2Title:'간편 인증',trust2Desc:'이메일 확인 후 등록을 진행해요',trust3Title:'상담 연결',trust3Desc:'희망하는 SNS 채널로 안내받을 수 있어요',eyebrow:'FOREIGN CUSTOMER PRE-REGISTRATION',landingTitle:'외국인 가망 고객을 위한 사전 회원 등록',landingDesc:'국적과 언어, 연락 수단을 먼저 등록하면 이후 필요한 안내를 더 정확하게 받을 수 있습니다.',bullet1:'필수 정보만 단계별로 간단하게 입력',bullet2:'이메일 인증 후 등록 진행',bullet3:'희망하는 SNS 채널로 상담 연결 준비',startBtn:'사전 회원 등록 시작',step1Title:'기본 정보를 입력해 주세요',step1Sub:'영문 이름과 국적, 선호 언어를 등록합니다.',lastNameLabel:'영문 성',firstNameLabel:'영문 이름',birthLabel:'생년월일',genderLabel:'성별',male:'남성',female:'여성',nationalityLabel:'국적',preferredLangLabel:'선호 언어',requiredMsg:'필수 항목을 입력해 주세요.',nextBtn:'다음',backBtn:'이전',step2Title:'연락 정보를 입력해 주세요',step2Sub:'이메일 인증 후, 유입 경로와 상담 채널을 등록합니다.',emailLabel:'이메일',emailHelper:'이메일 인증을 완료해 주세요.',emailErr:'올바른 이메일을 입력해 주세요.',emailVerifyLabel:'이메일 인증',sendCodeBtn:'인증코드 발송',verifyBtn:'인증 확인',codeErr:'인증코드를 확인해 주세요.',codeSuccess:'이메일 인증이 완료되었습니다.',phoneLabel:'휴대전화 번호',phoneHelper:'선택 입력 항목입니다.',sourceLabel:'유입 경로',sourceDetailLabel:'유입 경로 상세',snsChannelLabel:'상담 희망 SNS',snsAccountLabel:'SNS 계정',submitBtn:'등록 완료',prevBtn:'이전',completeTitle:'사전 회원 등록이 완료되었습니다',completeDesc:'입력하신 정보를 바탕으로 이후 필요한 안내를 준비하겠습니다.',resetBtn:'처음으로 돌아가기',saveImageBtn:'신청정보 이미지로 저장하기'},en:{langTitle:'Select language',heroTitle:'Prepare for life in Korea<br />with easy pre-registration',heroDesc:'Register your basic information before arrival and receive faster guidance later.',trust1Title:'Pre-registration',trust1Desc:'Register only your basic information first',trust2Title:'Easy verification',trust2Desc:'Proceed after email verification',trust3Title:'Consultation',trust3Desc:'Get guidance through your preferred SNS channel',eyebrow:'FOREIGN CUSTOMER PRE-REGISTRATION',landingTitle:'Pre-registration for prospective foreign customers',landingDesc:'Register your nationality, language, and contact channel in advance for more accurate future guidance.',bullet1:'Enter only essential information step by step',bullet2:'Complete email verification before submission',bullet3:'Prepare consultation through your preferred SNS channel',startBtn:'Start pre-registration',step1Title:'Please enter your basic information',step1Sub:'Register your English name, nationality, and preferred language.',lastNameLabel:'Last name',firstNameLabel:'First name',birthLabel:'Date of birth',genderLabel:'Gender',male:'Male',female:'Female',nationalityLabel:'Nationality',preferredLangLabel:'Preferred language',requiredMsg:'Please fill in this required field.',nextBtn:'Next',backBtn:'Back',step2Title:'Please enter your contact information',step2Sub:'After email verification, register your referral source and consultation channel.',emailLabel:'Email',emailHelper:'Please complete email verification.',emailErr:'Please enter a valid email address.',emailVerifyLabel:'Email verification',sendCodeBtn:'Send code',verifyBtn:'Verify',codeErr:'Please check the verification code.',codeSuccess:'Email verified successfully.',phoneLabel:'Mobile number',phoneHelper:'This field is optional.',sourceLabel:'Referral source',sourceDetailLabel:'Referral details',snsChannelLabel:'Preferred SNS for consultation',snsAccountLabel:'SNS account',submitBtn:'Complete registration',prevBtn:'Back',completeTitle:'Pre-registration completed',completeDesc:'We will prepare future guidance based on the information you entered.',resetBtn:'Back to start',saveImageBtn:'Save application as image'}};
+    const optionData={nationality:['Vietnam','China','Philippines','Nepal','Cambodia','Indonesia','United States','Canada','Australia','United Kingdom','Singapore','Malaysia','Thailand','Myanmar'],languages:['한국어','English','Tiếng Việt','Indonesia','ខ្មែរ','中文','မြန်မာ','ไทย'],source:['Facebook','Instagram','Zalo','WhatsApp','Google Search','Friend Referral','Offline Partner','Etc'],sns:['Facebook','Zalo','Instagram','WhatsApp']};
+    ['vi','id','km','zh','my','th'].forEach(k=>translations[k]=translations.en);
+    const state={lang:'ko',emailVerified:false,emailCodeSent:false};
+    const landingPage=document.getElementById('landingPage'),step1Page=document.getElementById('step1Page'),step2Page=document.getElementById('step2Page'),completePage=document.getElementById('completePage');
+    const el={lastName:document.getElementById('lastName'),firstName:document.getElementById('firstName'),birthDate:document.getElementById('birthDate'),nationality:document.getElementById('nationality'),preferredLanguage:document.getElementById('preferredLanguage'),email:document.getElementById('email'),emailCode:document.getElementById('emailCode'),phone:document.getElementById('phone'),source:document.getElementById('source'),sourceDetail:document.getElementById('sourceDetail'),snsChannel:document.getElementById('snsChannel'),snsAccount:document.getElementById('snsAccount')};
+    const errors={lastName:document.getElementById('lastNameErr'),firstName:document.getElementById('firstNameErr'),birthDate:document.getElementById('birthDateErr'),gender:document.getElementById('genderErr'),nationality:document.getElementById('nationalityErr'),preferredLanguage:document.getElementById('preferredLanguageErr'),email:document.getElementById('emailErr'),emailCode:document.getElementById('emailCodeErr'),emailCodeSuccess:document.getElementById('emailCodeSuccess'),source:document.getElementById('sourceErr'),snsChannel:document.getElementById('snsChannelErr'),snsAccount:document.getElementById('snsAccountErr')};
+    function populateSelect(select,items,placeholder){select.innerHTML='';const first=document.createElement('option');first.value='';first.textContent=placeholder;select.appendChild(first);items.forEach(item=>{const opt=document.createElement('option');opt.value=item;opt.textContent=item;select.appendChild(opt);});}
+    function setLanguage(lang){state.lang=lang;document.documentElement.lang=lang;document.querySelectorAll('.lang-btn').forEach(btn=>btn.classList.toggle('active',btn.dataset.lang===lang));document.querySelectorAll('[data-i18n]').forEach(node=>{const key=node.dataset.i18n;if(translations[lang]&&translations[lang][key])node.innerHTML=translations[lang][key];});populateSelect(el.nationality,optionData.nationality,translations[lang].nationalityLabel);populateSelect(el.preferredLanguage,optionData.languages,translations[lang].preferredLangLabel);populateSelect(el.source,optionData.source,translations[lang].sourceLabel);populateSelect(el.snsChannel,optionData.sns,translations[lang].snsChannelLabel);}
+    function showPage(page){[landingPage,step1Page,step2Page,completePage].forEach(p=>p.classList.remove('active'));if(page==='landing')landingPage.classList.add('active');if(page==='step1')step1Page.classList.add('active');if(page==='step2')step2Page.classList.add('active');if(page==='complete')completePage.classList.add('active');window.scrollTo({top:0,behavior:'smooth'});}
+    function validEmail(v){return /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(v);} function showError(n,s){n.style.display=s?'block':'none';}
+    function getGenderValue(){const checked=document.querySelector('input[name="gender"]:checked');return checked?checked.value:'';}
+    function validateStep1(){let ok=true;showError(errors.lastName,!el.lastName.value.trim());if(!el.lastName.value.trim())ok=false;showError(errors.firstName,!el.firstName.value.trim());if(!el.firstName.value.trim())ok=false;showError(errors.birthDate,!el.birthDate.value);if(!el.birthDate.value)ok=false;showError(errors.gender,!getGenderValue());if(!getGenderValue())ok=false;showError(errors.nationality,!el.nationality.value);if(!el.nationality.value)ok=false;showError(errors.preferredLanguage,!el.preferredLanguage.value);if(!el.preferredLanguage.value)ok=false;return ok;}
+    function validateStep2(){let ok=true;showError(errors.email,!validEmail(el.email.value.trim()));if(!validEmail(el.email.value.trim()))ok=false;showError(errors.emailCode,!state.emailVerified);if(!state.emailVerified)ok=false;showError(errors.source,!el.source.value);if(!el.source.value)ok=false;showError(errors.snsChannel,!el.snsChannel.value);if(!el.snsChannel.value)ok=false;showError(errors.snsAccount,!el.snsAccount.value.trim());if(!el.snsAccount.value.trim())ok=false;return ok;}
+    function buildSummary(){document.getElementById('summaryLastName').textContent=el.lastName.value||'-';document.getElementById('summaryFirstName').textContent=el.firstName.value||'-';document.getElementById('summaryBirth').textContent=el.birthDate.value||'-';document.getElementById('summaryGender').textContent=getGenderValue()==='male'?translations[state.lang].male:translations[state.lang].female;document.getElementById('summaryNationality').textContent=el.nationality.value||'-';document.getElementById('summaryPreferredLanguage').textContent=el.preferredLanguage.value||'-';document.getElementById('summaryEmail').textContent=el.email.value||'-';document.getElementById('summaryPhone').textContent=el.phone.value||'-';document.getElementById('summarySource').textContent=el.source.value||'-';document.getElementById('summarySourceDetail').textContent=el.sourceDetail.value||'-';document.getElementById('summarySnsChannel').textContent=el.snsChannel.value||'-';document.getElementById('summarySnsAccount').textContent=el.snsAccount.value||'-';}
+    function downloadTxt(){const content=[`Last Name: ${el.lastName.value}`,`First Name: ${el.firstName.value}`,`Birth Date: ${el.birthDate.value}`,`Gender: ${getGenderValue()}`,`Nationality: ${el.nationality.value}`,`Preferred Language: ${el.preferredLanguage.value}`,`Email: ${el.email.value}`,`Phone: ${el.phone.value}`,`Source: ${el.source.value}`,`Source Detail: ${el.sourceDetail.value}`,`SNS Channel: ${el.snsChannel.value}`,`SNS Account: ${el.snsAccount.value}`].join('\n');const blob=new Blob([content],{type:'text/plain;charset=utf-8'});const a=document.createElement('a');a.href=URL.createObjectURL(blob);a.download=`pre_registration_${Date.now()}.txt`;document.body.appendChild(a);a.click();a.remove();URL.revokeObjectURL(a.href);}
+    function resetForm(){document.querySelectorAll('input').forEach(input=>{if(input.type==='radio')input.checked=false;else input.value='';});document.querySelectorAll('select').forEach(select=>select.selectedIndex=0);state.emailVerified=false;state.emailCodeSent=false;document.getElementById('codeWrap').classList.remove('show');showError(errors.emailCode,false);errors.emailCodeSuccess.style.display='none';showPage('landing');}
+    document.querySelectorAll('.lang-btn').forEach(btn=>btn.addEventListener('click',()=>setLanguage(btn.dataset.lang)));
+    document.getElementById('startBtn').addEventListener('click',()=>showPage('step1'));
+    document.getElementById('backLandingBtn').addEventListener('click',()=>showPage('landing'));
+    document.getElementById('toStep2Btn').addEventListener('click',()=>{if(validateStep1())showPage('step2');});
+    document.getElementById('toStep1Btn').addEventListener('click',()=>showPage('step1'));
+    document.getElementById('sendCodeBtn').addEventListener('click',()=>{if(!validEmail(el.email.value.trim())){showError(errors.email,true);return;}showError(errors.email,false);state.emailCodeSent=true;state.emailVerified=false;document.getElementById('codeWrap').classList.add('show');errors.emailCodeSuccess.style.display='none';alert(state.lang==='ko'?'인증코드가 발송되었습니다.':'Verification code sent.');});
+    document.getElementById('verifyCodeBtn').addEventListener('click',()=>{if(!state.emailCodeSent)return;if(el.emailCode.value.trim()==='000000'){state.emailVerified=true;showError(errors.emailCode,false);errors.emailCodeSuccess.style.display='block';}else{state.emailVerified=false;errors.emailCodeSuccess.style.display='none';showError(errors.emailCode,true);}});
+    document.getElementById('submitBtn').addEventListener('click',()=>{if(!validateStep2())return;buildSummary();showPage('complete');downloadTxt();});
+    document.getElementById('resetBtn').addEventListener('click',resetForm);
+    document.getElementById('saveImageBtn').addEventListener('click',async()=>{const target=document.getElementById('captureArea');const canvas=await html2canvas(target,{backgroundColor:'#ffffff',scale:2,useCORS:true});canvas.toBlob(blob=>{if(!blob)return;const a=document.createElement('a');a.href=URL.createObjectURL(blob);a.download=`application_summary_${Date.now()}.png`;document.body.appendChild(a);a.click();a.remove();URL.revokeObjectURL(a.href);},'image/png');});
+    setLanguage('ko');
+  </script>
+</body>
+</html>
