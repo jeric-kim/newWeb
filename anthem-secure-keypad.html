@@ -1,0 +1,588 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>금융 보안 키패드 애국가 타이핑</title>
+  <style>
+    :root{
+      --bg:#ffffff;
+      --panel:#f7f8fa;
+      --line:#dfe3e8;
+      --text:#111827;
+      --muted:#6b7280;
+      --dark:#0f172a;
+      --dark-2:#111827;
+      --key:#1f2937;
+      --key-border:#374151;
+      --key-active:#0b1220;
+      --white:#ffffff;
+      --accent:#111827;
+      --accent-2:#2563eb;
+      --success:#0f9d58;
+      --shadow:0 18px 50px rgba(17,24,39,.08);
+      --radius:24px;
+    }
+    *{box-sizing:border-box}
+    html,body{margin:0;padding:0;background:var(--bg);color:var(--text);font-family:"Pretendard","Apple SD Gothic Neo","Noto Sans KR",sans-serif}
+    body{padding:20px}
+    .app{max-width:1100px;margin:0 auto}
+    .screen{display:none;min-height:calc(100vh - 40px);align-items:center;justify-content:center}
+    .screen.active{display:flex}
+    .card{background:#fff;border:1px solid var(--line);border-radius:var(--radius);box-shadow:var(--shadow)}
+    .intro-card,.result-card-wrap{width:min(760px,100%);padding:34px}
+    .intro-head{padding:40px;border-radius:28px;background:linear-gradient(180deg,#fff,#f8fafc);border:1px solid #eef2f7}
+    .badge{display:inline-flex;align-items:center;gap:8px;padding:10px 14px;border-radius:999px;border:1px solid var(--line);background:#fff;font-size:13px;font-weight:800;color:#334155}
+    .shield{width:10px;height:10px;border-radius:999px;background:#22c55e;box-shadow:0 0 0 4px rgba(34,197,94,.15)}
+    h1,h2,h3,p{margin:0}
+    .title{margin-top:18px;font-size:clamp(32px,6vw,54px);line-height:1.08;font-weight:900;letter-spacing:-.03em}
+    .desc{margin-top:14px;color:var(--muted);font-size:17px;line-height:1.7}
+    .btn-row{display:flex;gap:12px;flex-wrap:wrap;margin-top:24px}
+    button{border:none;cursor:pointer;border-radius:18px;transition:.14s transform ease,.14s opacity ease,.14s background ease,.14s border-color ease}
+    button:hover{transform:translateY(-1px)}
+    button:active{transform:translateY(0)}
+    .btn-primary{background:var(--dark);color:#fff;padding:16px 22px;font-size:15px;font-weight:800}
+    .btn-secondary{background:#fff;border:1px solid var(--line);color:var(--text);padding:16px 22px;font-size:15px;font-weight:800}
+    .btn-ghost{background:#f8fafc;border:1px solid var(--line);color:#475569;padding:16px 22px;font-size:15px;font-weight:800}
+    .history{margin-top:22px;padding:22px;border-top:1px solid #edf2f7;display:none}
+    .history.show{display:block}
+    .history-list{display:grid;gap:10px;margin-top:12px}
+    .history-item{display:grid;grid-template-columns:1.5fr .8fr .8fr;gap:8px;padding:14px 16px;border:1px solid var(--line);border-radius:18px;background:#fbfcfd}
+    .empty{padding:18px;border:1px dashed var(--line);border-radius:18px;color:var(--muted);text-align:center}
+    .game{display:none;gap:18px;flex-direction:column}
+    .game.active{display:flex}
+    .topbar{padding:14px 18px;display:flex;justify-content:space-between;align-items:center;gap:12px;flex-wrap:wrap}
+    .top-group{display:flex;gap:10px;align-items:center;flex-wrap:wrap}
+    .pill{padding:10px 14px;border:1px solid var(--line);background:#fbfcfe;border-radius:999px;font-weight:800;font-size:14px}
+    .layout{display:grid;grid-template-columns:1.05fr .95fr;gap:18px}
+    .pane{padding:22px}
+    .section-title{font-size:20px;font-weight:900}
+    .section-note{margin-top:8px;color:var(--muted);font-size:13px;line-height:1.6}
+    .target{margin-top:18px;font-size:clamp(22px,3vw,30px);line-height:1.9;word-break:keep-all;min-height:172px}
+    .char.correct{color:var(--success)}
+    .char.current{background:#111827;color:#fff;padding:2px 5px;border-radius:8px}
+    .char.pending{color:#b8c0cc}
+    .input-panel{margin-top:20px;padding:18px;border-radius:22px;border:1px solid var(--line);background:#fff}
+    .typed-box{min-height:108px;font-size:25px;line-height:1.8;letter-spacing:.01em;white-space:pre-wrap;word-break:break-word}
+    .typed-box::after{content:"";display:inline-block;width:2px;height:1.1em;background:#111827;vertical-align:-.1em;margin-left:4px;animation:blink 1s steps(1) infinite}
+    @keyframes blink{50%{opacity:0}}
+    .stats{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:12px;margin-top:18px}
+    .stat{padding:14px;border-radius:18px;border:1px solid var(--line);background:#fbfcfe}
+    .label{font-size:13px;color:var(--muted)}
+    .big{margin-top:6px;font-size:26px;font-weight:900}
+    .keypad-shell{padding:0;border-radius:28px;overflow:hidden;border:1px solid #111827;background:var(--dark)}
+    .keypad-head{padding:18px 20px;background:linear-gradient(180deg,#182233,#101827);color:#fff;border-bottom:1px solid rgba(255,255,255,.08)}
+    .keypad-head-top{display:flex;justify-content:space-between;align-items:center;gap:12px}
+    .bank-badge{display:inline-flex;align-items:center;gap:8px;padding:8px 12px;border-radius:999px;background:rgba(255,255,255,.08);border:1px solid rgba(255,255,255,.12);font-size:12px;font-weight:800}
+    .status-dot{width:8px;height:8px;border-radius:999px;background:#22c55e;box-shadow:0 0 0 4px rgba(34,197,94,.18)}
+    .keypad-sub{margin-top:12px;font-size:13px;color:rgba(255,255,255,.68);line-height:1.6}
+    .secure-display{margin-top:14px;padding:14px 16px;border-radius:18px;background:rgba(255,255,255,.06);border:1px solid rgba(255,255,255,.08)}
+    .secure-display .mask{font-size:14px;color:#cdd6e3}
+    .secure-display .next{margin-top:8px;font-size:15px;font-weight:800;color:#fff}
+    .keypad-body{padding:18px;background:linear-gradient(180deg,#0f172a,#111827)}
+    .keypad-grid{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:10px}
+    .key{
+      height:68px;border-radius:18px;background:linear-gradient(180deg,#293548,#1b2433);
+      border:1px solid rgba(255,255,255,.08);color:#fff;font-size:24px;font-weight:900;
+      box-shadow:inset 0 1px 0 rgba(255,255,255,.08), 0 10px 24px rgba(0,0,0,.25)
+    }
+    .key:hover{background:linear-gradient(180deg,#31405a,#202b3d)}
+    .key:disabled{opacity:.28;cursor:not-allowed;transform:none}
+    .key.action{font-size:14px;font-weight:800}
+    .key.action.accent{background:linear-gradient(180deg,#1f66ff,#1548bb)}
+    .key.action.warn{background:linear-gradient(180deg,#4b5563,#374151)}
+    .key.action.light{background:linear-gradient(180deg,#263244,#1e293b)}
+    .keyboard-foot{margin-top:14px;display:flex;justify-content:space-between;gap:12px;align-items:center;flex-wrap:wrap}
+    .mini-note{font-size:12px;color:#cdd6e3;line-height:1.6}
+    .countdown{position:fixed;inset:0;background:rgba(255,255,255,.94);display:none;align-items:center;justify-content:center;flex-direction:column;z-index:100}
+    .countdown.show{display:flex}
+    .count-num{font-size:clamp(74px,15vw,170px);font-weight:1000;line-height:1}
+    .count-note{margin-top:8px;color:var(--muted);font-weight:700}
+    .result-grid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:12px;margin-top:22px}
+    .result-box{padding:18px;border-radius:20px;background:#fbfcfe;border:1px solid var(--line)}
+    .note{margin-top:14px;color:var(--muted);font-size:13px;line-height:1.6}
+    @media (max-width: 900px){
+      .layout{grid-template-columns:1fr}
+    }
+    @media (max-width: 720px){
+      body{padding:14px}
+      .screen{min-height:calc(100vh - 28px)}
+      .intro-card,.result-card-wrap{padding:18px}
+      .intro-head{padding:24px}
+      .pane{padding:18px}
+      .stats,.result-grid{grid-template-columns:1fr}
+      .history-item{grid-template-columns:1fr}
+      .keypad-grid{grid-template-columns:repeat(3,minmax(0,1fr))}
+      .key{height:62px;font-size:22px}
+    }
+  </style>
+</head>
+<body>
+  <div class="app">
+    <section id="introScreen" class="screen active">
+      <div class="intro-card card">
+        <div class="intro-head">
+          <div class="badge"><span class="shield"></span> 금융권 보안 키패드 스타일 데모</div>
+          <h1 class="title">애국가 1절<br>보안 키패드 타이핑</h1>
+          <p class="desc">하드웨어 키보드는 차단되고, 화면 안의 랜덤 보안 키패드만 사용할 수 있습니다. 시작 후 3·2·1 카운트다운이 끝나면 입력이 활성화됩니다.</p>
+          <div class="btn-row">
+            <button id="startBtn" class="btn-primary">시작</button>
+            <button id="historyBtn" class="btn-secondary">이전 기록</button>
+            <button id="resetBtn" class="btn-ghost">기록 초기화</button>
+          </div>
+        </div>
+        <div id="historyPanel" class="history">
+          <h3>이전 기록</h3>
+          <p class="note">최초 실행 시 브라우저 로컬 저장소에 기록용 영역을 자동 생성합니다.</p>
+          <div id="historyList" class="history-list"></div>
+        </div>
+      </div>
+    </section>
+
+    <section id="gameScreen" class="game">
+      <div class="topbar card">
+        <div class="top-group">
+          <button id="backBtn" class="btn-secondary">처음으로</button>
+          <div class="pill">모드: 애국가 1절</div>
+          <div class="pill">보안 레이아웃: 랜덤</div>
+        </div>
+        <div class="top-group">
+          <div class="pill">진행률 <span id="progressText">0%</span></div>
+          <div class="pill">시간 <span id="timerText">0.0초</span></div>
+        </div>
+      </div>
+
+      <div class="layout">
+        <div class="card pane">
+          <div class="section-title">제시 문장</div>
+          <div class="section-note">현재 입력해야 하는 위치가 강조됩니다.</div>
+          <div id="targetText" class="target"></div>
+
+          <div class="section-title" style="margin-top:20px;">입력 내용</div>
+          <div class="section-note">실제 키보드 입력은 차단되어 있으며, 아래 보안 키패드만 사용할 수 있습니다.</div>
+          <div class="input-panel">
+            <div id="typedText" class="typed-box"></div>
+          </div>
+
+          <div class="stats">
+            <div class="stat">
+              <div class="label">남은 글자 수</div>
+              <div id="remainingText" class="big">0</div>
+            </div>
+            <div class="stat">
+              <div class="label">입력 속도</div>
+              <div id="cpmText" class="big">0 CPM</div>
+            </div>
+            <div class="stat">
+              <div class="label">활성 키</div>
+              <div id="nextKeyText" class="big">-</div>
+            </div>
+          </div>
+        </div>
+
+        <div class="keypad-shell">
+          <div class="keypad-head">
+            <div class="keypad-head-top">
+              <div class="bank-badge"><span class="status-dot"></span> Secure Keypad</div>
+              <div class="bank-badge">랜덤 배열</div>
+            </div>
+            <div class="keypad-sub">보안 강화를 위해 키패드 배열은 라운드 시작 시마다 재구성됩니다.</div>
+            <div class="secure-display">
+              <div class="mask">입력 진행: <span id="maskText">0 / 34</span></div>
+              <div class="next">다음 입력: <span id="secureNextText">-</span></div>
+            </div>
+          </div>
+          <div class="keypad-body">
+            <div id="keypad" class="keypad-grid"></div>
+            <div class="keyboard-foot">
+              <div class="mini-note">화면 보안 키패드 전용 · 직접 입력 차단 · 로컬 기록 저장</div>
+              <button id="shuffleBtn" class="btn-ghost" style="padding:12px 16px;border-radius:14px;background:#1d2636;color:#fff;border:1px solid rgba(255,255,255,.08)">배열 다시 섞기</button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section id="resultScreen" class="screen">
+      <div class="result-card-wrap card">
+        <div class="badge"><span class="shield"></span> 입력 완료</div>
+        <h2 class="title" style="font-size:clamp(28px,5vw,44px);margin-top:18px">보안 키패드 입력 성공</h2>
+        <p class="desc">이번 기록은 브라우저 로컬 저장소에 저장되었습니다.</p>
+
+        <div class="result-grid">
+          <div class="result-box">
+            <div class="label">완료 시간</div>
+            <div id="resultTime" class="big">0.0초</div>
+          </div>
+          <div class="result-box">
+            <div class="label">입력 속도</div>
+            <div id="resultCpm" class="big">0 CPM</div>
+          </div>
+          <div class="result-box">
+            <div class="label">정확도</div>
+            <div id="resultAccuracy" class="big">100%</div>
+          </div>
+        </div>
+
+        <p id="resultDate" class="note"></p>
+        <div class="btn-row">
+          <button id="restartBtn" class="btn-primary">다시 시작</button>
+          <button id="homeBtn" class="btn-secondary">인트로로</button>
+        </div>
+      </div>
+    </section>
+  </div>
+
+  <div id="countdown" class="countdown">
+    <div id="countNum" class="count-num">3</div>
+    <div class="count-note">보안 키패드 준비 중</div>
+  </div>
+
+  <script>
+    const STORAGE_KEY = 'anthemTypingSecureHistory_v1';
+    const TEXT = '동해 물과 백두산이 마르고 닳도록 하느님이 보우하사 우리나라 만세';
+
+    const introScreen = document.getElementById('introScreen');
+    const gameScreen = document.getElementById('gameScreen');
+    const resultScreen = document.getElementById('resultScreen');
+
+    const startBtn = document.getElementById('startBtn');
+    const historyBtn = document.getElementById('historyBtn');
+    const resetBtn = document.getElementById('resetBtn');
+    const restartBtn = document.getElementById('restartBtn');
+    const backBtn = document.getElementById('backBtn');
+    const homeBtn = document.getElementById('homeBtn');
+    const shuffleBtn = document.getElementById('shuffleBtn');
+
+    const historyPanel = document.getElementById('historyPanel');
+    const historyList = document.getElementById('historyList');
+    const targetText = document.getElementById('targetText');
+    const typedText = document.getElementById('typedText');
+    const progressText = document.getElementById('progressText');
+    const timerText = document.getElementById('timerText');
+    const remainingText = document.getElementById('remainingText');
+    const cpmText = document.getElementById('cpmText');
+    const nextKeyText = document.getElementById('nextKeyText');
+    const secureNextText = document.getElementById('secureNextText');
+    const maskText = document.getElementById('maskText');
+    const keypad = document.getElementById('keypad');
+    const countdown = document.getElementById('countdown');
+    const countNum = document.getElementById('countNum');
+
+    const resultTime = document.getElementById('resultTime');
+    const resultCpm = document.getElementById('resultCpm');
+    const resultAccuracy = document.getElementById('resultAccuracy');
+    const resultDate = document.getElementById('resultDate');
+
+    let typed = '';
+    let started = false;
+    let finished = false;
+    let startTime = 0;
+    let timer = null;
+    let chars = [];
+
+    function initStorage(){
+      if(!localStorage.getItem(STORAGE_KEY)){
+        localStorage.setItem(STORAGE_KEY, JSON.stringify([]));
+      }
+    }
+
+    function getHistory(){
+      initStorage();
+      try { return JSON.parse(localStorage.getItem(STORAGE_KEY)) || []; }
+      catch { return []; }
+    }
+
+    function saveHistory(record){
+      const list = getHistory();
+      list.unshift(record);
+      localStorage.setItem(STORAGE_KEY, JSON.stringify(list.slice(0,20)));
+    }
+
+    function renderHistory(){
+      const list = getHistory();
+      historyList.innerHTML = '';
+      if(!list.length){
+        historyList.innerHTML = '<div class="empty">아직 저장된 기록이 없습니다.</div>';
+        return;
+      }
+      list.forEach((item, idx) => {
+        const div = document.createElement('div');
+        div.className = 'history-item';
+        div.innerHTML = `
+          <div><strong>#${list.length - idx}</strong><br>${escapeHtml(item.dateLabel)}</div>
+          <div><strong>${item.elapsed.toFixed(1)}초</strong><br>완료 시간</div>
+          <div><strong>${item.cpm} CPM</strong><br>입력 속도</div>
+        `;
+        historyList.appendChild(div);
+      });
+    }
+
+    function setScreen(name){
+      introScreen.classList.remove('active');
+      gameScreen.classList.remove('active');
+      resultScreen.classList.remove('active');
+      if(name === 'intro') introScreen.classList.add('active');
+      if(name === 'game') gameScreen.classList.add('active');
+      if(name === 'result') resultScreen.classList.add('active');
+    }
+
+    function uniqueChars(text){
+      const seen = new Set();
+      const out = [];
+      for(const ch of text){
+        if(ch === ' ') continue;
+        if(!seen.has(ch)){
+          seen.add(ch);
+          out.push(ch);
+        }
+      }
+      return out;
+    }
+
+    function shuffle(arr){
+      const a = [...arr];
+      for(let i=a.length-1;i>0;i--){
+        const j = Math.floor(Math.random()*(i+1));
+        [a[i], a[j]] = [a[j], a[i]];
+      }
+      return a;
+    }
+
+    function buildKeypad(){
+      keypad.innerHTML = '';
+      const mixed = shuffle(chars);
+      const controls = [
+        {label:'지우기', action:'backspace', className:'action warn'},
+        {label:'띄어쓰기', action:'space', className:'action accent'},
+        {label:'전체삭제', action:'clear', className:'action light'}
+      ];
+      const merged = [...mixed, ...controls];
+
+      merged.forEach((item) => {
+        const btn = document.createElement('button');
+        btn.className = 'key ' + (typeof item === 'string' ? '' : item.className);
+        if(typeof item === 'string'){
+          btn.textContent = item;
+          btn.dataset.key = item;
+          btn.addEventListener('click', () => press(item));
+        }else{
+          btn.textContent = item.label;
+          btn.dataset.action = item.action;
+          btn.addEventListener('click', () => {
+            if(item.action === 'space') press(' ');
+            if(item.action === 'backspace') backspace();
+            if(item.action === 'clear') clearTyped();
+          });
+        }
+        keypad.appendChild(btn);
+      });
+      updateKeypadState();
+    }
+
+    function nextChar(){
+      return TEXT[typed.length] || null;
+    }
+
+    function renderTarget(){
+      targetText.innerHTML = '';
+      [...TEXT].forEach((ch, idx) => {
+        const span = document.createElement('span');
+        span.textContent = ch;
+        span.className = 'char ' + (idx < typed.length ? 'correct' : idx === typed.length ? 'current' : 'pending');
+        targetText.appendChild(span);
+      });
+    }
+
+    function renderTyped(){
+      typedText.textContent = typed;
+    }
+
+    function elapsed(){
+      if(!startTime) return 0;
+      return (performance.now() - startTime) / 1000;
+    }
+
+    function calcCpm(sec){
+      if(sec <= 0) return 0;
+      return Math.round((typed.replaceAll(' ','').length / sec) * 60);
+    }
+
+    function updateStats(){
+      const sec = elapsed();
+      const remain = TEXT.length - typed.length;
+      const progress = Math.floor((typed.length / TEXT.length) * 100);
+      const next = nextChar();
+      progressText.textContent = progress + '%';
+      timerText.textContent = sec.toFixed(1) + '초';
+      remainingText.textContent = String(remain);
+      cpmText.textContent = calcCpm(sec) + ' CPM';
+      nextKeyText.textContent = next === ' ' ? '띄어쓰기' : (next || '-');
+      secureNextText.textContent = next === ' ' ? '띄어쓰기' : (next || '-');
+      maskText.textContent = `${typed.length} / ${TEXT.length}`;
+    }
+
+    function updateKeypadState(){
+      const next = nextChar();
+      document.querySelectorAll('.key[data-key]').forEach((btn) => {
+        btn.disabled = !started || finished || btn.dataset.key !== next;
+      });
+      const space = document.querySelector('.key[data-action="space"]');
+      const back = document.querySelector('.key[data-action="backspace"]');
+      const clear = document.querySelector('.key[data-action="clear"]');
+      if(space) space.disabled = !started || finished || next !== ' ';
+      if(back) back.disabled = !started || finished || typed.length === 0;
+      if(clear) clear.disabled = !started || finished || typed.length === 0;
+    }
+
+    function renderAll(){
+      renderTarget();
+      renderTyped();
+      updateStats();
+      updateKeypadState();
+    }
+
+    function press(ch){
+      if(!started || finished) return;
+      const expected = nextChar();
+      if(ch !== expected) return;
+      typed += ch;
+      beep(820, 0.02);
+      renderAll();
+      if(typed === TEXT) finish();
+    }
+
+    function backspace(){
+      if(!started || finished || !typed.length) return;
+      typed = typed.slice(0, -1);
+      beep(260, 0.015);
+      renderAll();
+    }
+
+    function clearTyped(){
+      if(!started || finished) return;
+      typed = '';
+      beep(180, 0.02);
+      renderAll();
+    }
+
+    function stopTimer(){
+      if(timer){
+        clearInterval(timer);
+        timer = null;
+      }
+    }
+
+    function finish(){
+      finished = true;
+      stopTimer();
+      const sec = elapsed();
+      const cpm = calcCpm(sec);
+      const now = new Date();
+      const dateLabel = now.toLocaleString('ko-KR', {
+        year:'numeric', month:'2-digit', day:'2-digit',
+        hour:'2-digit', minute:'2-digit', second:'2-digit'
+      });
+      saveHistory({ elapsed: sec, cpm, accuracy: 100, dateLabel });
+      renderHistory();
+      resultTime.textContent = sec.toFixed(1) + '초';
+      resultCpm.textContent = cpm + ' CPM';
+      resultAccuracy.textContent = '100%';
+      resultDate.textContent = dateLabel + ' 기준 기록';
+      setScreen('result');
+      updateKeypadState();
+    }
+
+    async function runCountdown(){
+      countdown.classList.add('show');
+      for(const n of [3,2,1]){
+        countNum.textContent = n;
+        beep(500 + n*80, 0.025);
+        await wait(800);
+      }
+      countNum.textContent = 'START';
+      beep(900, 0.03);
+      await wait(500);
+      countdown.classList.remove('show');
+    }
+
+    function wait(ms){
+      return new Promise(resolve => setTimeout(resolve, ms));
+    }
+
+    async function startGame(){
+      typed = '';
+      started = false;
+      finished = false;
+      startTime = 0;
+      stopTimer();
+      buildKeypad();
+      renderAll();
+      setScreen('game');
+      await runCountdown();
+      started = true;
+      startTime = performance.now();
+      timer = setInterval(updateStats, 100);
+      renderAll();
+    }
+
+    function beep(freq, duration){
+      try{
+        const audioCtx = new (window.AudioContext || window.webkitAudioContext)();
+        const oscillator = audioCtx.createOscillator();
+        const gain = audioCtx.createGain();
+        oscillator.type = 'sine';
+        oscillator.frequency.value = freq;
+        gain.gain.value = 0.02;
+        oscillator.connect(gain);
+        gain.connect(audioCtx.destination);
+        oscillator.start();
+        gain.gain.exponentialRampToValueAtTime(0.0001, audioCtx.currentTime + duration);
+        oscillator.stop(audioCtx.currentTime + duration);
+      }catch(e){}
+    }
+
+    function escapeHtml(value){
+      return String(value)
+        .replaceAll('&', '&amp;')
+        .replaceAll('<', '&lt;')
+        .replaceAll('>', '&gt;')
+        .replaceAll('"', '&quot;')
+        .replaceAll("'", '&#039;');
+    }
+
+    startBtn.addEventListener('click', startGame);
+    restartBtn.addEventListener('click', startGame);
+    backBtn.addEventListener('click', () => {
+      stopTimer();
+      setScreen('intro');
+    });
+    homeBtn.addEventListener('click', () => setScreen('intro'));
+    historyBtn.addEventListener('click', () => {
+      historyPanel.classList.toggle('show');
+      renderHistory();
+    });
+    resetBtn.addEventListener('click', () => {
+      if(confirm('저장된 기록을 모두 삭제할까요?')){
+        localStorage.setItem(STORAGE_KEY, JSON.stringify([]));
+        renderHistory();
+      }
+    });
+    shuffleBtn.addEventListener('click', () => {
+      buildKeypad();
+      beep(340, 0.02);
+    });
+
+    document.addEventListener('keydown', (e) => e.preventDefault(), true);
+    document.addEventListener('paste', (e) => e.preventDefault(), true);
+    document.addEventListener('drop', (e) => e.preventDefault(), true);
+    document.addEventListener('contextmenu', (e) => e.preventDefault());
+
+    chars = uniqueChars(TEXT);
+    initStorage();
+    renderHistory();
+    buildKeypad();
+    renderAll();
+  </script>
+</body>
+</html>
